@@ -1,0 +1,5 @@
+POST /{myVar1}?a={a}&n={b}&c=$var
+accept:application/json,application/xml
+example:$example
+
+body={"myJson":"$teste"}
