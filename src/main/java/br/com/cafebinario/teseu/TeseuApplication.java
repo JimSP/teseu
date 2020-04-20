@@ -18,8 +18,8 @@ import br.com.cafebinario.logger.Log;
 import br.com.cafebinario.logger.LogLevel;
 import br.com.cafebinario.logger.VerboseMode;
 import br.com.cafebinario.teseu.api.TeseuInvoker;
-import br.com.cafebinario.teseu.api.TeseuManager;
 import br.com.cafebinario.teseu.api.TeseuParse;
+import br.com.cafebinario.teseu.model.TeseuManager;
 
 @SpringBootApplication
 @EnableJpaRepositories
@@ -50,7 +50,6 @@ public class TeseuApplication {
 		public void run(String... args) throws Exception {
 			
 			try {
-				
 				TeseuManager.execute(teseuParse, teseuInvoker, args);
 			}catch (Exception e) {
 				throw e;

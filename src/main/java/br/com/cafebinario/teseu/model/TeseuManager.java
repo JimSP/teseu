@@ -1,4 +1,4 @@
-package br.com.cafebinario.teseu.api;
+package br.com.cafebinario.teseu.model;
 
 import java.nio.file.Path;
 import java.util.Collections;
@@ -9,6 +9,8 @@ import java.util.Map;
 import br.com.cafebinario.logger.Log;
 import br.com.cafebinario.logger.LogLevel;
 import br.com.cafebinario.logger.VerboseMode;
+import br.com.cafebinario.teseu.api.TeseuInvoker;
+import br.com.cafebinario.teseu.api.TeseuParse;
 
 public final class TeseuManager {
 

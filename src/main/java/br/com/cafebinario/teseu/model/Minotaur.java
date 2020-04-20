@@ -1,4 +1,4 @@
-package br.com.cafebinario.teseu.api;
+package br.com.cafebinario.teseu.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

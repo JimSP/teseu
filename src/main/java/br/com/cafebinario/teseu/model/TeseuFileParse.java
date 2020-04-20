@@ -1,22 +1,22 @@
-package br.com.cafebinario.teseu.infrastruct;
+package br.com.cafebinario.teseu.model;
 
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.BODY;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.DIR_NAME;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.EMPTY;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.FILENAME_KEY;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.HEADERS;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.HOST;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.ITEM_DECLARATION;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.METHOD;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.ORDERS_FILE_NAME;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.OUTPUT_FILE_EXTENSION;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.PATH_SEPARATOR;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.REGEX_FILE_SEPARATOR;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.REGEX_SPACE;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.SEPARATOR;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.TESSEU_CONTEXT_FILE_NAME;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.URI;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.VAR_SEPARATOR;
+import static br.com.cafebinario.teseu.model.TeseuConstants.BODY;
+import static br.com.cafebinario.teseu.model.TeseuConstants.DIR_NAME;
+import static br.com.cafebinario.teseu.model.TeseuConstants.EMPTY;
+import static br.com.cafebinario.teseu.model.TeseuConstants.FILENAME_KEY;
+import static br.com.cafebinario.teseu.model.TeseuConstants.HEADERS;
+import static br.com.cafebinario.teseu.model.TeseuConstants.HOST;
+import static br.com.cafebinario.teseu.model.TeseuConstants.ITEM_DECLARATION;
+import static br.com.cafebinario.teseu.model.TeseuConstants.METHOD;
+import static br.com.cafebinario.teseu.model.TeseuConstants.ORDERS_FILE_NAME;
+import static br.com.cafebinario.teseu.model.TeseuConstants.OUTPUT_FILE_EXTENSION;
+import static br.com.cafebinario.teseu.model.TeseuConstants.PATH_SEPARATOR;
+import static br.com.cafebinario.teseu.model.TeseuConstants.REGEX_FILE_SEPARATOR;
+import static br.com.cafebinario.teseu.model.TeseuConstants.REGEX_SPACE;
+import static br.com.cafebinario.teseu.model.TeseuConstants.SEPARATOR;
+import static br.com.cafebinario.teseu.model.TeseuConstants.TESSEU_CONTEXT_FILE_NAME;
+import static br.com.cafebinario.teseu.model.TeseuConstants.URI;
+import static br.com.cafebinario.teseu.model.TeseuConstants.VAR_SEPARATOR;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -38,7 +38,7 @@ import br.com.cafebinario.teseu.api.TeseuParse;
 import lombok.SneakyThrows;
 
 @Service
-public class TeseuFileParse implements TeseuParse{
+class TeseuFileParse implements TeseuParse{
 
 	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	@SneakyThrows

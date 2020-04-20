@@ -1,17 +1,17 @@
-package br.com.cafebinario.teseu.infrastruct;
+package br.com.cafebinario.teseu.model;
 
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.BODY;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.EMPTY;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.ENTRY_FORMAT;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.HEADERS;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.HOST;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.HTTP_PROTOCOL;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.HTTP_STATUS;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.ITEM_SEPARATOR;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.METHOD;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.RESPONSE_BODY;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.RESPONSE_HEADERS;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.URI;
+import static br.com.cafebinario.teseu.model.TeseuConstants.BODY;
+import static br.com.cafebinario.teseu.model.TeseuConstants.EMPTY;
+import static br.com.cafebinario.teseu.model.TeseuConstants.ENTRY_FORMAT;
+import static br.com.cafebinario.teseu.model.TeseuConstants.HEADERS;
+import static br.com.cafebinario.teseu.model.TeseuConstants.HOST;
+import static br.com.cafebinario.teseu.model.TeseuConstants.HTTP_PROTOCOL;
+import static br.com.cafebinario.teseu.model.TeseuConstants.HTTP_STATUS;
+import static br.com.cafebinario.teseu.model.TeseuConstants.ITEM_SEPARATOR;
+import static br.com.cafebinario.teseu.model.TeseuConstants.METHOD;
+import static br.com.cafebinario.teseu.model.TeseuConstants.RESPONSE_BODY;
+import static br.com.cafebinario.teseu.model.TeseuConstants.RESPONSE_HEADERS;
+import static br.com.cafebinario.teseu.model.TeseuConstants.URI;
 
 import java.util.Arrays;
 import java.util.Base64;
@@ -42,7 +42,7 @@ import br.com.cafebinario.teseu.api.TeseuInvoker;
 import lombok.SneakyThrows;
 
 @Service
-public class TeseuHttpInvoker implements TeseuInvoker{
+class TeseuHttpInvoker implements TeseuInvoker{
 
 	@Autowired
 	private RestTemplate restTemplate;
