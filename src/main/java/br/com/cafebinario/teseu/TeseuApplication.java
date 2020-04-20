@@ -8,32 +8,26 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.ApplicationPidFileWriter;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import br.com.cafebinario.teseu.api.TeseuInvoker;
 import br.com.cafebinario.teseu.api.TeseuManager;
 import br.com.cafebinario.teseu.api.TeseuParse;
+import br.com.comprealugueagora.batchblueprint.BatchBlueprintApplication;
 import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
 @Slf4j
 public class TeseuApplication {
 
-	private static int exitCode = 0;
-
 	public static void main(String[] args) {
 		
-		final SpringApplicationBuilder teseuApplication = new SpringApplicationBuilder(TeseuApplication.class)
-				.web(WebApplicationType.NONE);
-		
-		teseuApplication.build().addListeners(new ApplicationPidFileWriter("teseu.pid"));
-		
-		final ApplicationContext applicationContext = teseuApplication.run();
-	
-		SpringApplication.exit(applicationContext, () -> exitCode);
+		SpringApplication.run(TeseuApplication.class, args);
 	}
 
 	@Component
+	@Profile("batch")
 	class TeseuCommandLine implements CommandLineRunner {
 
 		@Autowired
@@ -48,8 +42,8 @@ public class TeseuApplication {
 			try {
 				TeseuManager.execute(teseuParse, teseuInvoker, args);
 			}catch (Exception e) {
-				exitCode = -1;
 				log.error("m=run, args={}", args, e);
+				throw e;
 			}
 		}
 	}
