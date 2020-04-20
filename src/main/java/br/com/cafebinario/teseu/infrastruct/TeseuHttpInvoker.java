@@ -35,6 +35,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.POJONode;
 
+import br.com.cafebinario.logger.Log;
+import br.com.cafebinario.logger.LogLevel;
+import br.com.cafebinario.logger.VerboseMode;
 import br.com.cafebinario.teseu.api.TeseuInvoker;
 import lombok.SneakyThrows;
 
@@ -44,6 +47,7 @@ public class TeseuHttpInvoker implements TeseuInvoker{
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	@SneakyThrows
 	@Override
 	public Map<String, String> execute(final Map<String, String> teseuRequestContext, final String... args) {

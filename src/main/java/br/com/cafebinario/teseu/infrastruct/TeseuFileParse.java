@@ -31,12 +31,16 @@ import java.util.stream.Collectors;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import br.com.cafebinario.logger.Log;
+import br.com.cafebinario.logger.LogLevel;
+import br.com.cafebinario.logger.VerboseMode;
 import br.com.cafebinario.teseu.api.TeseuParse;
 import lombok.SneakyThrows;
 
 @Service
 public class TeseuFileParse implements TeseuParse{
 
+	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	@SneakyThrows
 	@Override
 	public void write(final Map<String, String> tesseuResponseContext) {
@@ -58,11 +62,7 @@ public class TeseuFileParse implements TeseuParse{
 										 .concat("\r\n"));
 	}
 
-	private Path resolveOutputFileName(final Map<String, String> tesseuResponseContext) {
-		
-		return Paths.get(DIR_NAME).resolve(Paths.get(tesseuResponseContext.get(FILENAME_KEY).concat(OUTPUT_FILE_EXTENSION)));
-	}
-	
+	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	@SneakyThrows
 	@Override
 	public Map<String, String> read(final Path path, Map<String, String> tesseuRequestContext) {
@@ -105,16 +105,7 @@ public class TeseuFileParse implements TeseuParse{
 		return tesseuRequestContext;
 	}
 
-	private Map<String, String> readContext() throws IOException {
-		
-		return Files.readAllLines(Paths.get(DIR_NAME.concat("/").concat(TESSEU_CONTEXT_FILE_NAME)))
-				.stream()
-				.map(line->{
-					final String[] variable = line.split(SEPARATOR);
-					return Pair.of(variable[0], variable[1]);
-				}).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
-	}
-
+	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	@SneakyThrows
 	@Override
 	public List<Path> list() {
@@ -126,6 +117,7 @@ public class TeseuFileParse implements TeseuParse{
 				.collect(Collectors.toList());
 	}
 	
+	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	@SneakyThrows
 	@Override
 	public void write(final Map<String, String> tesseuRequestContext, final Path inputFile, final Throwable t) {
@@ -140,6 +132,21 @@ public class TeseuFileParse implements TeseuParse{
 					 .concat(t.toString())
 					 .concat("\r\n"));
 		}
+	}
+	
+	private Path resolveOutputFileName(final Map<String, String> tesseuResponseContext) {
+		
+		return Paths.get(DIR_NAME).resolve(Paths.get(tesseuResponseContext.get(FILENAME_KEY).concat(OUTPUT_FILE_EXTENSION)));
+	}
+	
+	private Map<String, String> readContext() throws IOException {
+		
+		return Files.readAllLines(Paths.get(DIR_NAME.concat("/").concat(TESSEU_CONTEXT_FILE_NAME)))
+				.stream()
+				.map(line->{
+					final String[] variable = line.split(SEPARATOR);
+					return Pair.of(variable[0], variable[1]);
+				}).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
 	}
 	
 	private String bindUrl(final String url, final Map<String, String> tesseuRequestContext) {

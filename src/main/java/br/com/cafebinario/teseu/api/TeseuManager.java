@@ -6,10 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.com.cafebinario.logger.Log;
+import br.com.cafebinario.logger.LogLevel;
+import br.com.cafebinario.logger.VerboseMode;
+
 public final class TeseuManager {
 
 	private final static Map<String, String> tesseuRequestContext = Collections.synchronizedMap(new HashMap<>());
 	
+	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	public static void execute(final TeseuParse teseuParse, final TeseuInvoker teseuInvoker, final String... args) throws Exception {
 		
 		if(!tesseuRequestContext.isEmpty()) {
