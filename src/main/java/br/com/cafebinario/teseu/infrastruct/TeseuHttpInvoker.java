@@ -9,21 +9,20 @@ import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.HTTP_PROTOCOL;
 import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.HTTP_STATUS;
 import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.ITEM_SEPARATOR;
 import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.METHOD;
-import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.PATH_SEPARATOR;
 import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.RESPONSE_BODY;
 import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.RESPONSE_HEADERS;
 import static br.com.cafebinario.teseu.infrastruct.TeseuConstants.URI;
 
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BinaryOperator;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.util.Pair;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -32,7 +31,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.POJONode;
+
 import br.com.cafebinario.teseu.api.TeseuInvoker;
+import lombok.SneakyThrows;
 
 @Service
 public class TeseuHttpInvoker implements TeseuInvoker{
@@ -40,6 +44,7 @@ public class TeseuHttpInvoker implements TeseuInvoker{
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	@SneakyThrows
 	@Override
 	public Map<String, String> execute(final Map<String, String> teseuRequestContext, final String... args) {
 		
@@ -48,37 +53,28 @@ public class TeseuHttpInvoker implements TeseuInvoker{
 		final HttpHeaders headers = toHttpHeaders(teseuRequestContext);
 		final String body = teseuRequestContext.get(BODY);
 		
-		final ResponseEntity<Map<String, String>> responseEntity = callHttp(teseuRequestContext, url, method, headers, body);
+		final ResponseEntity<String> responseEntity = callHttp(teseuRequestContext, url, method, headers, body);
 		
 		final Map<String, String> tesseuResponseContext = Collections.synchronizedMap(new HashMap<>());
 		
-		final Map<String, String> responseBody = extractBody(responseEntity);
+		toMap(RESPONSE_BODY, new ObjectMapper().readTree(responseEntity.getBody()), tesseuResponseContext);
 		
 		final HttpHeaders responseHeaders = responseEntity.getHeaders();
 		
 		final HttpStatus httpStatus = responseEntity.getStatusCode();
 		
-		tesseuResponseContext.putAll(responseBody);
+
 		tesseuResponseContext.put(RESPONSE_HEADERS, toResponseHeaders(responseHeaders));
 		tesseuResponseContext.put(HTTP_STATUS, String.valueOf(httpStatus.value()));
 		
 		return tesseuResponseContext;
 	}
 
-	private Map<String, String> extractBody(final ResponseEntity<Map<String, String>> responseEntity) {
-		return responseEntity.getBody()
-																.entrySet()
-																.stream()
-																.map(entry->Pair.of(RESPONSE_BODY + PATH_SEPARATOR + entry.getKey(), entry.getValue()))
-																.collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
-	}
-
-	private ResponseEntity<Map<String, String>> callHttp(final Map<String, String> teseuRequestContext,
+	private ResponseEntity<String> callHttp(final Map<String, String> teseuRequestContext,
 			final String url, final HttpMethod method, final HttpHeaders headers, final String body) {
 		
 		return restTemplate.exchange(url, method,
-				new HttpEntity<>(body, headers), new ParameterizedTypeReference<Map<String, String>>() {
-				}, teseuRequestContext);
+				new HttpEntity<>(body, headers), String.class, teseuRequestContext);
 		
 	}
 
@@ -112,8 +108,74 @@ public class TeseuHttpInvoker implements TeseuInvoker{
 		
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		
-		headers.entrySet().stream().filter(entry->entry.getKey().contains(HEADERS)).forEach((entry)->httpHeaders.addAll(entry.getKey().split("[" + HEADERS + ".]")[1], Arrays.asList(entry.getValue().split(ITEM_SEPARATOR))));
+		headers
+			.entrySet()
+			.stream()
+			.filter(entry->entry
+								.getKey()
+								.contains(HEADERS))
+			.forEach((entry)->httpHeaders.addAll(
+												entry.getKey().split("[" + HEADERS + ".]")[1], 
+												Arrays.asList(entry.getValue().split(ITEM_SEPARATOR))));
 		
 		return httpHeaders;
+	}
+	
+	@SneakyThrows
+	public void toMap(final String key, final JsonNode parent, final Map<String, String> map) {
+		
+		final AtomicLong i = new AtomicLong(0);
+		
+		switch (parent.getNodeType()) {
+		case ARRAY:
+			final Iterator<JsonNode> itArray = parent.elements();
+			while(itArray.hasNext()) {
+				final JsonNode jsonObbj = itArray.next();
+				toMap(key + "[" + i.getAndIncrement() + "]", jsonObbj, map);
+			}
+			break;
+
+		case BINARY:
+			map.put(key, Base64.getEncoder().encodeToString(parent.binaryValue()));
+			break;
+
+		case BOOLEAN:
+			map.put(key, String.valueOf(parent.booleanValue()));
+			break;
+
+		case MISSING:
+			map.put(key, "");
+			break;
+
+		case NULL:
+			map.put(key, "null");
+			break;
+
+		case NUMBER:
+			map.put(key, String.valueOf(parent.numberValue()));
+			break;
+
+		case OBJECT:
+			final Iterator<Map.Entry<String, JsonNode>> itObj = parent.fields();
+			while(itObj.hasNext()) {
+				final Map.Entry<String, JsonNode> jsonObbj = itObj.next();
+				toMap(key + "." + jsonObbj.getKey(), jsonObbj.getValue(), map);
+			}
+			break;
+
+		case POJO:
+			final Iterator<JsonNode> itPojo = parent.elements();
+			while(itPojo.hasNext()) {
+				final JsonNode childrenPojo = itPojo.next();
+				toMap(key + "." + ((POJONode)childrenPojo).getPojo().getClass().getSimpleName(), childrenPojo, map);
+			}
+			break;
+
+		case STRING:
+			map.put(key, parent.textValue());
+			break;
+		default:
+			break;
+		}
 	}
 }
