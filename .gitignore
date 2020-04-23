@@ -6,6 +6,7 @@ build/
 !**/src/test/**
 
 /caa-regressive-tests
+*.teseu
 
 ### STS ###
 .apt_generated
