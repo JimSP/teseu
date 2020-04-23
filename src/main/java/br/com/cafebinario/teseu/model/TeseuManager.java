@@ -31,10 +31,10 @@ public final class TeseuManager {
 			try {
 				
 				final Map<String, String> tesseuResponseContext = teseuInvoker.execute(tesseuRequestContext, args);
-				
-				teseuParse.write(tesseuResponseContext);
-				
 				tesseuRequestContext.putAll(tesseuResponseContext);
+				
+				teseuParse.write(tesseuRequestContext);
+				
 			}catch (Throwable t) {
 				
 				teseuParse.write(tesseuRequestContext, name, t);

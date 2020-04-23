@@ -1,0 +1,5 @@
+POST /login/authenticate
+accept:application/json
+Content-Type:application/json
+
+$loginPayload

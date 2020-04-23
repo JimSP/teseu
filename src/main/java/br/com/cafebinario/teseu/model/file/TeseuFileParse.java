@@ -75,8 +75,13 @@ class TeseuFileParse implements TeseuParse<Path>{
 			} else {
 				final String[] keyValue = line.split(VAR_SEPARATOR);
 				
-				teseuRequestContext.put(HEADERS + PATH_SEPARATOR + keyValue[0].trim(), teseuBinder.bind(keyValue[1].trim(), 
-						teseuRequestContext));
+				if(keyValue[0].substring(0, 1).equals("!")) {
+					teseuRequestContext.put(HEADERS + PATH_SEPARATOR + keyValue[0].trim().substring(1), teseuBinder.bind(teseuRequestContext.get(keyValue[1].substring(1).trim()), 
+							teseuRequestContext));
+				}else {
+					teseuRequestContext.put(HEADERS + PATH_SEPARATOR + keyValue[0].trim(), teseuBinder.bind(keyValue[1].trim(), 
+							teseuRequestContext));
+				}
 			}
 		}
 		
@@ -98,15 +103,18 @@ class TeseuFileParse implements TeseuParse<Path>{
 		
 		final Path path = resolveOutputFileName(tesseuResponseContext);
 		
-		Files.newBufferedWriter(path)
-					.write("status-code:".concat(httpStatus)
-										 .concat("\r\n")
-										 .concat("response-headers:")
-										 .concat(responseHeaders)
-										 .concat("\r\n")
-										 .concat("response-body:")
-										 .concat(responseBody)
-										 .concat("\r\n"));
+		try(final BufferedWriter bufferedWriter = Files.newBufferedWriter(path)){
+			bufferedWriter.write("status-code:".concat(httpStatus)
+					 .concat("\r\n")
+					 .concat("response-headers:")
+					 .concat(responseHeaders)
+					 .concat("\r\n")
+					 .concat("response-body:")
+					 .concat(responseBody)
+					 .concat("\r\n"));
+			
+			bufferedWriter.flush();
+		} 
 	}
 
 	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)

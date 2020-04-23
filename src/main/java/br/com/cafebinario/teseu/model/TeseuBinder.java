@@ -9,15 +9,18 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import lombok.SneakyThrows;
+
 @Component
 public class TeseuBinder {
 
+	@SneakyThrows
 	public String bind(final String content, final Map<String, String> tesseuRequestContext) {
 		
 		String newContent = content;
 		
 		for (final Map.Entry<String, String> entry : tesseuRequestContext.entrySet()) {
-			newContent = content.replace("$" + entry.getKey(), entry.getValue());
+			newContent = newContent.replace("$" + entry.getKey(), entry.getValue());
 		}
 		
 		return newContent;

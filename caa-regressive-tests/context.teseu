@@ -1,7 +1,2 @@
-host=www.myapi.com
-example=6576576576
-myVar1=teste1
-a=teste2
-b=teste=3
-teste=abcdfes
-var=ytyre
+host=http://localhost:7001/AlugueAgoraApi/api/
+loginPayload={"userName": "lumena@advogadox.com.br","password": "lumena"}

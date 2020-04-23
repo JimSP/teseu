@@ -5,7 +5,6 @@ import static br.com.cafebinario.teseu.model.TeseuConstants.EMPTY;
 import static br.com.cafebinario.teseu.model.TeseuConstants.ENTRY_FORMAT;
 import static br.com.cafebinario.teseu.model.TeseuConstants.HEADERS;
 import static br.com.cafebinario.teseu.model.TeseuConstants.HOST;
-import static br.com.cafebinario.teseu.model.TeseuConstants.HTTP_PROTOCOL;
 import static br.com.cafebinario.teseu.model.TeseuConstants.HTTP_STATUS;
 import static br.com.cafebinario.teseu.model.TeseuConstants.ITEM_SEPARATOR;
 import static br.com.cafebinario.teseu.model.TeseuConstants.METHOD;
@@ -52,7 +51,7 @@ class TeseuHttpInvoker implements TeseuInvoker {
 	@Override
 	public Map<String, String> execute(final Map<String, String> teseuRequestContext, final String... args) {
 
-		final String url = HTTP_PROTOCOL + teseuRequestContext.get(HOST) + teseuRequestContext.get(URI);
+		final String url = teseuRequestContext.get(HOST) + teseuRequestContext.get(URI);
 		final HttpMethod method = toHttpMethod(teseuRequestContext.get(METHOD));
 		final HttpHeaders headers = toHttpHeaders(teseuRequestContext);
 		final String body = teseuRequestContext.get(BODY);
@@ -63,6 +62,8 @@ class TeseuHttpInvoker implements TeseuInvoker {
 		final Map<String, String> tesseuResponseContext = Collections.synchronizedMap(new HashMap<>());
 		
 		toMap(RESPONSE_BODY, new ObjectMapper().readTree(responseEntity.getBody()), tesseuResponseContext);
+		
+		tesseuResponseContext.put(RESPONSE_BODY, responseEntity.getBody());
 		
 		final HttpHeaders responseHeaders = responseEntity.getHeaders();
 		
@@ -109,11 +110,9 @@ class TeseuHttpInvoker implements TeseuInvoker {
 			.entrySet()
 			.stream()
 			.filter(entry->entry
-								.getKey()
-								.contains(HEADERS))
-			.forEach((entry)->httpHeaders.addAll(
-												entry.getKey().split("[" + HEADERS + ".]")[1], 
-												Arrays.asList(entry.getValue().split(ITEM_SEPARATOR))));
+						.getKey()
+						.contains(HEADERS))
+			.forEach((entry)->httpHeaders.addAll(entry.getKey().split("[.=]")[1], Arrays.asList(entry.getValue().split(ITEM_SEPARATOR))));
 		
 		return httpHeaders;
 	}

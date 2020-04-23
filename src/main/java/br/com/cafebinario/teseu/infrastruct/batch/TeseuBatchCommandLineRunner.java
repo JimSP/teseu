@@ -28,11 +28,11 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner {
 	@Qualifier("teseuFileParse")
 	private TeseuParse<Path> teseuParse;
 	
-	@Value("${br.com.cafebinario.teseu.context.filename:teseu.context}")
+	@Value("${br.com.cafebinario.teseu.context.filename:execution-orders.teseu}")
 	private String contexFileName;
 	
 	@Override
-	@Log(logLevel = LogLevel.ERROR, verboseMode = VerboseMode.ON)
+	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	public void run(String... args) throws Exception {
 		
 		try {
