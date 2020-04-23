@@ -1,4 +1,4 @@
-package br.com.cafebinario.teseu.infrastruct;
+package br.com.cafebinario.teseu.infrastruct.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

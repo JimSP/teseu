@@ -1,6 +1,6 @@
 package br.com.cafebinario.teseu.model;
 
-interface TeseuConstants {
+public interface TeseuConstants {
 
 	public static final String EMPTY = "";
 	

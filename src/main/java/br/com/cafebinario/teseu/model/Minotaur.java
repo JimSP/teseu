@@ -13,7 +13,11 @@ public final class Minotaur extends Exception{
 		return new Minotaur(message, t);
 	}
 	
-	public Minotaur(final String message, final Throwable t) {
+	public static Exception of(final String message) {
+		return new Minotaur(message, null);
+	}
+	
+	private Minotaur(final String message, final Throwable t) {
 		super(message, t);
 	}
 }

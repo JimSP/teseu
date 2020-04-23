@@ -1,18 +1,21 @@
-package br.com.cafebinario.teseu.infrastruct;
+package br.com.cafebinario.teseu.infrastruct.configuration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
-@EnableSwagger2
+@EnableSwagger2WebMvc
+@Import(SpringDataRestConfiguration.class)
 @Configuration
 @EnableConfigurationProperties
 public class SwaggerAutoConfiguration {

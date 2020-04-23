@@ -1,6 +1,5 @@
 package br.com.cafebinario.teseu.model;
 
-import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -17,17 +16,17 @@ public final class TeseuManager {
 	private final static Map<String, String> tesseuRequestContext = Collections.synchronizedMap(new HashMap<>());
 	
 	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
-	public static void execute(final TeseuParse teseuParse, final TeseuInvoker teseuInvoker, final String... args) throws Exception {
+	public static <T> void execute(final TeseuParse<T> teseuParse, final T inputSource, final TeseuInvoker teseuInvoker, final String... args) throws Exception {
 		
 		if(!tesseuRequestContext.isEmpty()) {
 			throw new RuntimeException("there cannot be 2 (two) Theseus!");
 		}
 		
-		final List<Path> list = teseuParse.list();
+		final List<T> list = teseuParse.list(inputSource);
 		
-		for (final Path path : list) {
+		for (final T name : list) {
 			
-			teseuParse.read(path, tesseuRequestContext);
+			teseuParse.read(name, tesseuRequestContext);
 			
 			try {
 				
@@ -38,9 +37,9 @@ public final class TeseuManager {
 				tesseuRequestContext.putAll(tesseuResponseContext);
 			}catch (Throwable t) {
 				
-				teseuParse.write(tesseuRequestContext, path, t);
+				teseuParse.write(tesseuRequestContext, name, t);
 				
-				throw Minotaur.of("Theseus was lost in the maze on the way [" + path + "!]", t);
+				throw Minotaur.of("Theseus was lost in the maze on the way [" + name + "!]", t);
 			}
 		}
 		

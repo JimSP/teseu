@@ -23,14 +23,20 @@ repositories {
 	maven{
 		url 'https://raw.github.com/JimSP/artifacts/master'
 	}
+	
+	jcenter{
+		url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/'
+	}
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	
+	compile 'org.springframework.plugin:spring-plugin-core'
 	
 	compile 'br.com.cafebinario:logger-annotation:1.0.0-RELEASE'
 	
@@ -40,8 +46,9 @@ dependencies {
 	
 	annotationProcessor 'org.projectlombok:lombok'
 	
-	compile 'io.springfox:springfox-swagger-ui:2.9.2'
-	compile 'io.springfox:springfox-swagger2:2.9.2'
+	compile 'io.springfox:springfox-data-rest:3.0.0-SNAPSHOT'
+	compile 'io.springfox:springfox-swagger-ui:3.0.0-SNAPSHOT'
+	compile 'io.springfox:springfox-swagger2:3.0.0-SNAPSHOT'
 	
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

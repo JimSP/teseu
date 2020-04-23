@@ -1,4 +1,4 @@
-package br.com.cafebinario.teseu.model;
+package br.com.cafebinario.teseu.model.http;
 
 import static br.com.cafebinario.teseu.model.TeseuConstants.BODY;
 import static br.com.cafebinario.teseu.model.TeseuConstants.EMPTY;
@@ -42,8 +42,8 @@ import br.com.cafebinario.teseu.api.TeseuInvoker;
 import lombok.SneakyThrows;
 
 @Service
-class TeseuHttpInvoker implements TeseuInvoker{
-
+class TeseuHttpInvoker implements TeseuInvoker {
+	
 	@Autowired
 	private RestTemplate restTemplate;
 	
@@ -51,13 +51,14 @@ class TeseuHttpInvoker implements TeseuInvoker{
 	@SneakyThrows
 	@Override
 	public Map<String, String> execute(final Map<String, String> teseuRequestContext, final String... args) {
-		
+
 		final String url = HTTP_PROTOCOL + teseuRequestContext.get(HOST) + teseuRequestContext.get(URI);
 		final HttpMethod method = toHttpMethod(teseuRequestContext.get(METHOD));
 		final HttpHeaders headers = toHttpHeaders(teseuRequestContext);
 		final String body = teseuRequestContext.get(BODY);
 		
-		final ResponseEntity<String> responseEntity = callHttp(teseuRequestContext, url, method, headers, body);
+		final ResponseEntity<String> responseEntity = restTemplate.exchange(url, method,
+				new HttpEntity<>(body, headers), String.class, teseuRequestContext);
 		
 		final Map<String, String> tesseuResponseContext = Collections.synchronizedMap(new HashMap<>());
 		
@@ -73,15 +74,7 @@ class TeseuHttpInvoker implements TeseuInvoker{
 		
 		return tesseuResponseContext;
 	}
-
-	private ResponseEntity<String> callHttp(final Map<String, String> teseuRequestContext,
-			final String url, final HttpMethod method, final HttpHeaders headers, final String body) {
-		
-		return restTemplate.exchange(url, method,
-				new HttpEntity<>(body, headers), String.class, teseuRequestContext);
-		
-	}
-
+	
 	private HttpMethod toHttpMethod(final String method) {
 		
 		return HttpMethod.resolve(method);
@@ -126,7 +119,7 @@ class TeseuHttpInvoker implements TeseuInvoker{
 	}
 	
 	@SneakyThrows
-	public void toMap(final String key, final JsonNode parent, final Map<String, String> map) {
+	private void toMap(final String key, final JsonNode parent, final Map<String, String> map) {
 		
 		final AtomicLong i = new AtomicLong(0);
 		
