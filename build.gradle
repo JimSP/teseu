@@ -8,6 +8,25 @@ group = 'br.com.cafebinario'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+bootJar {
+    mainClassName = 'br.com.cafebinario.teseu.TeseuApplication'
+    manifest {
+        attributes('Implementation-Title':   'Teseu',
+                   'Implementation-Version': version)
+    }
+}
+
+springBoot {
+    buildInfo {
+        properties {
+            additional = [
+                'project.artifactId': 'Teseu',
+                'project.version': version
+            ]
+        }
+    }
+}
+
 configurations {
 	developmentOnly
 	runtimeClasspath {
