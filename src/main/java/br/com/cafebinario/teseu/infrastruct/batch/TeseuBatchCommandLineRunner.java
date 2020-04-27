@@ -1,7 +1,6 @@
 package br.com.cafebinario.teseu.infrastruct.batch;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -13,32 +12,65 @@ import org.springframework.stereotype.Component;
 import br.com.cafebinario.logger.Log;
 import br.com.cafebinario.logger.LogLevel;
 import br.com.cafebinario.logger.VerboseMode;
+import br.com.cafebinario.teseu.api.ExecutionStatus;
 import br.com.cafebinario.teseu.api.TeseuInvoker;
 import br.com.cafebinario.teseu.api.TeseuParse;
+import br.com.cafebinario.teseu.api.TeseuRegressiceTestAPI;
 import br.com.cafebinario.teseu.model.TeseuManager;
+import br.com.cafebinario.teseu.model.TeseuRunMode;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Profile("batch")
-public class TeseuBatchCommandLineRunner implements CommandLineRunner {
+@Slf4j
+public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegressiceTestAPI {
 
 	@Autowired
 	private TeseuInvoker teseuInvoker;
 	
+	@Value("${br.com.cafebinario.teseu.context.filename:execution-orders.teseu}")
+	private String ordersFileName;
+	
 	@Autowired
 	@Qualifier("teseuFileParse")
-	private TeseuParse<Path> teseuParse;
+	private TeseuParse<Path> teseuFileParse;
 	
-	@Value("${br.com.cafebinario.teseu.context.filename:execution-orders.teseu}")
-	private String contexFileName;
+	@Autowired
+	@Qualifier("teseuDBparse")
+	private TeseuParse<String> teseuDBparse;
+	
+	@Value("${br.com.cafebinario.teseu.run-mode:File}")
+	private String teseuRunMode;
 	
 	@Override
 	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	public void run(String... args) throws Exception {
 		
+		execute(ordersFileName, teseuRunMode);
+	}
+
+	@Override
+	@SneakyThrows
+	public ExecutionStatus execute(final String ordersName, final String teseuRunMode) {
+		
 		try {
-			TeseuManager.execute(teseuParse, Paths.get(contexFileName), teseuInvoker, args);
+			
+			return TeseuManager
+					.builder()
+					.ordersName(ordersName)
+					.teseuDBparse(teseuDBparse)
+					.teseuFileParse(teseuFileParse)
+					.teseuInvoker(teseuInvoker)
+					.teseuRunMode(TeseuRunMode.valueOf(teseuRunMode))
+					.build()
+					.execute();
+			
 		}catch (Exception e) {
-			throw e;
+			
+			log.error("m=execute, ordersName={}, teseuRunMode={}", ordersName, teseuRunMode, e);
+			
+			return ExecutionStatus.Error;
 		}
 	}
 }

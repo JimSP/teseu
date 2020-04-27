@@ -1,5 +1,5 @@
 GET /login/getHomeLogada
 accept:application/json
 Content-Type:application/json
-!token:$responseBody.token.value
+token:$login.responseBody.token.value
 

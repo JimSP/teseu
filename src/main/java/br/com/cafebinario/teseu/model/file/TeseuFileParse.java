@@ -75,8 +75,8 @@ class TeseuFileParse implements TeseuParse<Path>{
 			} else {
 				final String[] keyValue = line.split(VAR_SEPARATOR);
 				
-				if(keyValue[0].substring(0, 1).equals("!")) {
-					teseuRequestContext.put(HEADERS + PATH_SEPARATOR + keyValue[0].trim().substring(1), teseuBinder.bind(teseuRequestContext.get(keyValue[1].substring(1).trim()), 
+				if(keyValue[1].substring(0, 1).equals("$")) {
+					teseuRequestContext.put(HEADERS + PATH_SEPARATOR + keyValue[0].trim(), teseuBinder.bind(teseuRequestContext.get(keyValue[1].substring(1).trim()), 
 							teseuRequestContext));
 				}else {
 					teseuRequestContext.put(HEADERS + PATH_SEPARATOR + keyValue[0].trim(), teseuBinder.bind(keyValue[1].trim(), 

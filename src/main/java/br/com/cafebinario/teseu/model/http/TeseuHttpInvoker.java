@@ -11,6 +11,7 @@ import static br.com.cafebinario.teseu.model.TeseuConstants.METHOD;
 import static br.com.cafebinario.teseu.model.TeseuConstants.RESPONSE_BODY;
 import static br.com.cafebinario.teseu.model.TeseuConstants.RESPONSE_HEADERS;
 import static br.com.cafebinario.teseu.model.TeseuConstants.URI;
+import static br.com.cafebinario.teseu.model.TeseuConstants.FILENAME_KEY;
 
 import java.util.Arrays;
 import java.util.Base64;
@@ -61,7 +62,7 @@ class TeseuHttpInvoker implements TeseuInvoker {
 		
 		final Map<String, String> tesseuResponseContext = Collections.synchronizedMap(new HashMap<>());
 		
-		toMap(RESPONSE_BODY, new ObjectMapper().readTree(responseEntity.getBody()), tesseuResponseContext);
+		toMap(teseuRequestContext.get(FILENAME_KEY) + "." + RESPONSE_BODY, new ObjectMapper().readTree(responseEntity.getBody()), tesseuResponseContext);
 		
 		tesseuResponseContext.put(RESPONSE_BODY, responseEntity.getBody());
 		
