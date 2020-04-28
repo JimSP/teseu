@@ -1,5 +1,0 @@
-GET /login/getHomeLogada
-accept:application/json
-Content-Type:application/json
-token:$login.responseBody.token.value
-

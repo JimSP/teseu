@@ -21,20 +21,22 @@ public final class TeseuManager {
 
 	private final Map<String, String> tesseuRequestContext = Collections.synchronizedMap(new HashMap<>());
 
+	private final String name;
 	private final String ordersName;
 	private final TeseuRunMode teseuRunMode;
 	private final TeseuInvoker teseuInvoker;
 	private final TeseuParse<Path> teseuFileParse;
 	private final TeseuParse<String> teseuDBparse;
+	private final TeseuExpressionExpectedProcessor tesuExpectedProcessor;
 	
 	public ExecutionStatus execute() {
 
 		try {
 			
 			if(teseuRunMode == TeseuRunMode.File) {
-				execute(teseuFileParse, Paths.get(ordersName), teseuInvoker);
+				execute(teseuFileParse, Paths.get(name), Paths.get(ordersName), teseuInvoker);
 			}else {
-				execute(teseuDBparse, ordersName, teseuInvoker);
+				execute(teseuDBparse, name, ordersName, teseuInvoker);
 			}
 			
 			return ExecutionStatus.Success;
@@ -47,30 +49,41 @@ public final class TeseuManager {
 		}
 	}
 	
-	private <T> void execute(final TeseuParse<T> teseuParse, final T ordersFileName, final TeseuInvoker teseuInvoker, final String... args) throws Exception {
+	private <T> void execute(final TeseuParse<T> teseuParse, final T name, final T ordersFileName, final TeseuInvoker teseuInvoker, final String... args) throws Exception {
 		
 		if(!tesseuRequestContext.isEmpty()) {
 			throw new RuntimeException("there cannot be 2 (two) Theseus!");
 		}
 		
-		final List<T> list = teseuParse.list(ordersFileName);
+		final List<T> list = teseuParse.list(name, ordersFileName);
 		
-		for (final T name : list) {
+		for (final T requestName : list) {
 			
-			teseuParse.read(name, tesseuRequestContext);
+			teseuParse.read(name, requestName, tesseuRequestContext);
 			
 			try {
 				
 				final Map<String, String> tesseuResponseContext = teseuInvoker.execute(tesseuRequestContext, args);
 				tesseuRequestContext.putAll(tesseuResponseContext);
 				
-				teseuParse.write(tesseuRequestContext);
+				teseuParse.write(name, tesseuRequestContext);
 				
-			}catch (Throwable t) {
+				final List<String> expressions = teseuParse.readExpectedExpressions(name, tesseuRequestContext);
 				
-				teseuParse.write(tesseuRequestContext, name, t);
+				for (final String expression : expressions) {
+					
+					final Boolean expressionResult = tesuExpectedProcessor.parseExpression(expression, tesseuRequestContext);
+					
+					if(!expressionResult) {
+						throw Minotaur.of(requestName + ".request contains error in expression" + expression);
+					}
+				}
+
+			}catch (final Throwable t) {
 				
-				throw Minotaur.of("Theseus was lost in the maze on the way [" + name + "!]", t);
+				teseuParse.write(name, tesseuRequestContext, requestName, t);
+				
+				throw Minotaur.of("Theseus was lost in the maze on the way [" + name + "/" + requestName + "!]", t);
 			}
 		}
 		

@@ -7,7 +7,6 @@ public interface TeseuConstants {
 	public static final String FILENAME_KEY = "filename";
 	public static final String OUTPUT_FILE_EXTENSION = ".response";
 	public static final String INPUT_FILE_EXTENSION = ".request";
-	public static final String DIR_NAME = "caa-regressive-tests";
 	public static final String ORDERS_FILE_NAME = "execution-orders.teseu";
 	public static final String TESSEU_CONTEXT_FILE_NAME = "context.teseu";
 	

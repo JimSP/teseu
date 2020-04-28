@@ -48,11 +48,11 @@ public class TeseuDBparse implements TeseuParse<String> {
 	
 	@Override
 	@SneakyThrows
-	public Map<String, String> read(final String name, final Map<String, String> teseuRequestContext) {
+	public Map<String, String> read(final String name, final String requestName, final Map<String, String> teseuRequestContext) {
 		
 		final HttpRequest httpRequest = httpRequestRepository
-											.findOne(Example.of(HttpRequest.builder().name(name).build()))
-											.orElseThrow(()-> Minotaur.of("httpRequest of " + name + " not found"));
+											.findOne(Example.of(HttpRequest.builder().name(requestName).build()))
+											.orElseThrow(()-> Minotaur.of("httpRequest of " + requestName + " not found"));
 
 		teseuRequestContext.put("inputSource", httpRequest.getTeseuContext().getName());
 		
@@ -65,7 +65,7 @@ public class TeseuDBparse implements TeseuParse<String> {
 
 	@Override
 	@SneakyThrows
-	public List<String> list(final String inputSource) {
+	public List<String> list(final String name, final String inputSource) {
 
 		final TeseuContext teseuContext = findTeseuContext(inputSource);
 		final List<HttpRequest> httpRequests = teseuContext.getRequests();
@@ -79,7 +79,7 @@ public class TeseuDBparse implements TeseuParse<String> {
 	}
 
 	@Override
-	public void write(final Map<String, String> teseuResponseContext) {
+	public void write(final String name, final Map<String, String> teseuResponseContext) {
 		
 		final String inputSource = teseuResponseContext.get("inputSource");
 		final String responseBody = teseuResponseContext.get(TeseuConstants.RESPONSE_BODY);
@@ -101,7 +101,7 @@ public class TeseuDBparse implements TeseuParse<String> {
 
 	@Override
 	@SneakyThrows
-	public void write(final Map<String, String> tesseuRequestContext, final String inputSource, final Throwable t) {
+	public void write(final String name, final Map<String, String> tesseuRequestContext, final String inputSource, final Throwable t) {
 		
 		throw t;
 	}

@@ -64,15 +64,15 @@ class TeseuHttpInvoker implements TeseuInvoker {
 		
 		toMap(teseuRequestContext.get(FILENAME_KEY) + "." + RESPONSE_BODY, new ObjectMapper().readTree(responseEntity.getBody()), tesseuResponseContext);
 		
-		tesseuResponseContext.put(RESPONSE_BODY, responseEntity.getBody());
+		tesseuResponseContext.put(teseuRequestContext.get(FILENAME_KEY) + "." + RESPONSE_BODY, responseEntity.getBody());
 		
 		final HttpHeaders responseHeaders = responseEntity.getHeaders();
 		
 		final HttpStatus httpStatus = responseEntity.getStatusCode();
 		
 
-		tesseuResponseContext.put(RESPONSE_HEADERS, toResponseHeaders(responseHeaders));
-		tesseuResponseContext.put(HTTP_STATUS, String.valueOf(httpStatus.value()));
+		tesseuResponseContext.put(teseuRequestContext.get(FILENAME_KEY) + "." + RESPONSE_HEADERS, toResponseHeaders(responseHeaders));
+		tesseuResponseContext.put(teseuRequestContext.get(FILENAME_KEY) + "." + HTTP_STATUS, String.valueOf(httpStatus.value()));
 		
 		return tesseuResponseContext;
 	}

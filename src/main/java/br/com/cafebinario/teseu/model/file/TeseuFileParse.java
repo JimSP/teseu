@@ -1,7 +1,6 @@
 package br.com.cafebinario.teseu.model.file;
 
 import static br.com.cafebinario.teseu.model.TeseuConstants.BODY;
-import static br.com.cafebinario.teseu.model.TeseuConstants.DIR_NAME;
 import static br.com.cafebinario.teseu.model.TeseuConstants.EMPTY;
 import static br.com.cafebinario.teseu.model.TeseuConstants.FILENAME_KEY;
 import static br.com.cafebinario.teseu.model.TeseuConstants.HEADERS;
@@ -46,14 +45,14 @@ class TeseuFileParse implements TeseuParse<Path>{
 	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	@SneakyThrows
 	@Override
-	public Map<String, String> read(final Path inputSource, Map<String, String> teseuRequestContext) {
+	public Map<String, String> read(final Path dirName, final Path inputSource, Map<String, String> teseuRequestContext) {
 		
-		final Map<String, String> contextLines = readContext();
+		final Map<String, String> contextLines = readContext(dirName);
 		
 		teseuRequestContext.put(FILENAME_KEY, inputSource.toString().split(REGEX_FILE_SEPARATOR)[0]);
 		teseuRequestContext.putAll(contextLines);
 		
-		final List<String> lines = Files.readAllLines(Paths.get(DIR_NAME).resolve(inputSource));
+		final List<String> lines = Files.readAllLines(dirName.resolve(inputSource));
 		
 		final StringBuilder body = new StringBuilder();
 		int lineNumber = 0;
@@ -95,13 +94,13 @@ class TeseuFileParse implements TeseuParse<Path>{
 	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	@SneakyThrows
 	@Override
-	public void write(final Map<String, String> tesseuResponseContext) {
+	public void write(final Path dirName, final Map<String, String> tesseuResponseContext) {
 		
-		final String responseBody = tesseuResponseContext.get(TeseuConstants.RESPONSE_BODY);
-		final String responseHeaders = tesseuResponseContext.get(TeseuConstants.RESPONSE_HEADERS);
-		final String httpStatus = tesseuResponseContext.get(TeseuConstants.HTTP_STATUS);
+		final String httpStatus = tesseuResponseContext.get(tesseuResponseContext.get(FILENAME_KEY) + "." + TeseuConstants.HTTP_STATUS);
+		final String responseHeaders = tesseuResponseContext.get(tesseuResponseContext.get(FILENAME_KEY) + "." + TeseuConstants.RESPONSE_HEADERS);
+		final String responseBody = tesseuResponseContext.get(tesseuResponseContext.get(FILENAME_KEY) + "." + TeseuConstants.RESPONSE_BODY);
 		
-		final Path path = resolveOutputFileName(tesseuResponseContext);
+		final Path path = resolveOutputFileName(dirName, tesseuResponseContext);
 		
 		try(final BufferedWriter bufferedWriter = Files.newBufferedWriter(path)){
 			bufferedWriter.write("status-code:".concat(httpStatus)
@@ -120,10 +119,10 @@ class TeseuFileParse implements TeseuParse<Path>{
 	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	@SneakyThrows
 	@Override
-	public List<Path> list(final Path inputSource) {
+	public List<Path> list(final Path dirName, final Path inputSource) {
 
 		return Files
-				.readAllLines(Paths.get(DIR_NAME).resolve(inputSource))
+				.readAllLines(dirName.resolve(inputSource))
 				.stream()
 				.map(Paths::get)
 				.collect(Collectors.toList());
@@ -132,9 +131,9 @@ class TeseuFileParse implements TeseuParse<Path>{
 	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	@SneakyThrows
 	@Override
-	public void write(final Map<String, String> tesseuRequestContext, final Path inputSource, final Throwable t) {
+	public void write(final Path dirName, final Map<String, String> tesseuRequestContext, final Path inputSource, final Throwable t) {
 		
-		final Path path = resolveOutputFileName(tesseuRequestContext);
+		final Path path = resolveOutputFileName(dirName, tesseuRequestContext);
 		
 		try(final BufferedWriter bufferedWriter = Files.newBufferedWriter(path)){
 			
@@ -146,14 +145,22 @@ class TeseuFileParse implements TeseuParse<Path>{
 		}
 	}
 	
-	private Path resolveOutputFileName(final Map<String, String> tesseuResponseContext) {
+	@Override
+	@SneakyThrows
+	public List<String> readExpectedExpressions(final Path name, final Map<String, String> tesseuRequestContext){
 		
-		return Paths.get(DIR_NAME).resolve(Paths.get(tesseuResponseContext.get(FILENAME_KEY).concat(OUTPUT_FILE_EXTENSION)));
+		return Files
+				.readAllLines(name.resolve(Paths.get(tesseuRequestContext.get(FILENAME_KEY)) + ".expected"));
 	}
 	
-	private Map<String, String> readContext() throws IOException {
+	private Path resolveOutputFileName(final Path dirName, final Map<String, String> tesseuResponseContext) {
 		
-		return Files.readAllLines(Paths.get(DIR_NAME.concat("/").concat(TESSEU_CONTEXT_FILE_NAME)))
+		return dirName.resolve(Paths.get(tesseuResponseContext.get(FILENAME_KEY).concat(OUTPUT_FILE_EXTENSION)));
+	}
+	
+	private Map<String, String> readContext(final Path dirName) throws IOException {
+		
+		return Files.readAllLines(dirName.resolve(TESSEU_CONTEXT_FILE_NAME))
 				.stream()
 				.map(line->{
 					final String[] variable = line.split(SEPARATOR);

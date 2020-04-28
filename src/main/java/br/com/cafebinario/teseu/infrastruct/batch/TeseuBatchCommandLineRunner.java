@@ -16,6 +16,7 @@ import br.com.cafebinario.teseu.api.ExecutionStatus;
 import br.com.cafebinario.teseu.api.TeseuInvoker;
 import br.com.cafebinario.teseu.api.TeseuParse;
 import br.com.cafebinario.teseu.api.TeseuRegressiceTestAPI;
+import br.com.cafebinario.teseu.model.TeseuExpressionExpectedProcessor;
 import br.com.cafebinario.teseu.model.TeseuManager;
 import br.com.cafebinario.teseu.model.TeseuRunMode;
 import lombok.SneakyThrows;
@@ -32,6 +33,9 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegr
 	@Value("${br.com.cafebinario.teseu.context.filename:execution-orders.teseu}")
 	private String ordersFileName;
 	
+	@Value("${br.com.cafebinario.teseu.context.name:teseu-regressive-tests}")
+	private String name;
+	
 	@Autowired
 	@Qualifier("teseuFileParse")
 	private TeseuParse<Path> teseuFileParse;
@@ -39,6 +43,9 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegr
 	@Autowired
 	@Qualifier("teseuDBparse")
 	private TeseuParse<String> teseuDBparse;
+	
+	@Autowired
+	private TeseuExpressionExpectedProcessor tesuExpectedProcessor;
 	
 	@Value("${br.com.cafebinario.teseu.run-mode:File}")
 	private String teseuRunMode;
@@ -58,11 +65,13 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegr
 			
 			return TeseuManager
 					.builder()
+					.name(name)
 					.ordersName(ordersName)
 					.teseuDBparse(teseuDBparse)
 					.teseuFileParse(teseuFileParse)
 					.teseuInvoker(teseuInvoker)
 					.teseuRunMode(TeseuRunMode.valueOf(teseuRunMode))
+					.tesuExpectedProcessor(tesuExpectedProcessor)
 					.build()
 					.execute();
 			
