@@ -12,9 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.cafebinario.teseu.api.TeseuParse;
@@ -22,10 +24,10 @@ import br.com.cafebinario.teseu.infrastruct.database.entities.HttpHeaders;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpRequest;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpResponse;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpResponseHeaders;
-import br.com.cafebinario.teseu.infrastruct.database.entities.TeseuContext;
+import br.com.cafebinario.teseu.infrastruct.database.entities.TeseuExecutionOrder;
 import br.com.cafebinario.teseu.infrastruct.database.repositories.HttpRequestRepository;
 import br.com.cafebinario.teseu.infrastruct.database.repositories.HttpResponseRespository;
-import br.com.cafebinario.teseu.infrastruct.database.repositories.TeseuContextRepository;
+import br.com.cafebinario.teseu.infrastruct.database.repositories.TeseuExecutionOrderRepository;
 import br.com.cafebinario.teseu.model.Minotaur;
 import br.com.cafebinario.teseu.model.TeseuBinder;
 import br.com.cafebinario.teseu.model.TeseuConstants;
@@ -33,15 +35,15 @@ import lombok.SneakyThrows;
 
 @Service("teseuDBparse")
 public class TeseuDBparse implements TeseuParse<String> {
-    
-	@Autowired
-	private TeseuContextRepository teseuContexRepository;
 	
 	@Autowired
 	private HttpRequestRepository httpRequestRepository;
 	
 	@Autowired
 	private HttpResponseRespository httpResponseRespository;
+	
+	@Autowired
+	private TeseuExecutionOrderRepository teseuExecutionOrderRepository;
 	
 	@Autowired
 	private TeseuBinder teseuBinder;
@@ -67,14 +69,13 @@ public class TeseuDBparse implements TeseuParse<String> {
 	@SneakyThrows
 	public List<String> list(final String name, final String inputSource) {
 
-		final TeseuContext teseuContext = findTeseuContext(inputSource);
-		final List<HttpRequest> httpRequests = teseuContext.getRequests();
-		
-		httpRequests.sort((a,b)->a.getExecutionOrder() <= b.getExecutionOrder() ? a.getExecutionOrder() : b.getExecutionOrder());
-		
-		return httpRequests
-				.stream()
-				.map(httpRequest->httpRequest.getName())
+		return StreamSupport.stream(teseuExecutionOrderRepository
+				.findAll(Example.of(
+						TeseuExecutionOrder
+							.builder()
+							.testName(name)
+							.build()), Sort.by(TeseuExecutionOrder.orderBy())).spliterator(), false)
+				.map(TeseuExecutionOrder::getApiName)
 				.collect(Collectors.toList());
 	}
 
@@ -106,30 +107,13 @@ public class TeseuDBparse implements TeseuParse<String> {
 		throw t;
 	}
 	
-	private TeseuContext findTeseuContext(final String inputSource) throws Exception {
-		
-		final TeseuContext probeOfTeseuContext = probe(inputSource);
-		final Example<TeseuContext> exampleOfTeseuContext = Example.of(probeOfTeseuContext);
-		final TeseuContext teseuContext = teseuContexRepository.findOne(exampleOfTeseuContext)
-																.orElseThrow(()-> Minotaur.of("httpRequest of " + inputSource + " not found"));
-		return teseuContext;
-	}
-	
-	private TeseuContext probe(final String name) {
-		
-		return TeseuContext
-				.builder()
-				.name(name)
-				.build();
-	}
-	
 	private Map<String, String> toMap(final HttpRequest httpRequest, final Map<String, String> tesseuRequestContext) {
 		
 		final Map<String, String> map = Collections.synchronizedMap(new HashMap<>());
 		
 		map.put(FILENAME_KEY, httpRequest.getName());
 		map.put(HOST, teseuBinder.bind(httpRequest.getHost(), tesseuRequestContext));
-		map.put(METHOD, httpRequest.getMetohd().name());
+		map.put(METHOD, httpRequest.getMethod().name());
 		
 		final Map<String, String> headers = httpRequest
 				.getHeaders()
