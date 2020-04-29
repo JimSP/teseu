@@ -25,7 +25,7 @@ public class TeseuExpressionExpectedProcessor {
 		
 		final ParserContext parserContext = ParserContext.TEMPLATE_EXPRESSION;
 		
-		final Expression expression = expressionParser.parseExpression(expressionString.substring(expressionString.indexOf("=") + 1), parserContext);
+		final Expression expression = expressionParser.parseExpression("#{context.get(\"" + expressionString.substring(expressionString.indexOf("=") + 1) + "\")}", parserContext);
 
 		return condition.equals(String.valueOf(expression.getValue(teseuContext)));
 	}

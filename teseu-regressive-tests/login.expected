@@ -1,1 +1,1 @@
-200=#{context.get("login.httpStatus")}
+200=login.httpStatus
