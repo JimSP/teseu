@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.cafebinario.teseu.api.ExecutionStatus;
+import br.com.cafebinario.teseu.api.TeseuExpectedProcessor;
 import br.com.cafebinario.teseu.api.TeseuInvoker;
 import br.com.cafebinario.teseu.api.TeseuParse;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public final class TeseuManager {
 	private final TeseuInvoker teseuInvoker;
 	private final TeseuParse<Path> teseuFileParse;
 	private final TeseuParse<String> teseuDBparse;
-	private final TeseuExpressionExpectedProcessor tesuExpectedProcessor;
+	private final TeseuExpectedProcessor teseuExpectedProcessor;
 	
 	public ExecutionStatus execute() {
 
@@ -49,7 +50,7 @@ public final class TeseuManager {
 		}
 	}
 	
-	private <T> void execute(final TeseuParse<T> teseuParse, final T name, final T ordersFileName, final TeseuInvoker teseuInvoker, final String... args) throws Exception {
+	private <T> void execute(final TeseuParse<T> teseuParse, final T name, final T ordersFileName, final TeseuInvoker teseuInvoker) throws Exception {
 		
 		if(!tesseuRequestContext.isEmpty()) {
 			throw new RuntimeException("there cannot be 2 (two) Theseus!");
@@ -63,7 +64,7 @@ public final class TeseuManager {
 			
 			try {
 				
-				final Map<String, String> tesseuResponseContext = teseuInvoker.execute(tesseuRequestContext, args);
+				final Map<String, String> tesseuResponseContext = teseuInvoker.execute(tesseuRequestContext);
 				tesseuRequestContext.putAll(tesseuResponseContext);
 				
 				teseuParse.write(name, tesseuRequestContext);
@@ -72,7 +73,7 @@ public final class TeseuManager {
 				
 				for (final String expression : expressions) {
 					
-					final Boolean expressionResult = tesuExpectedProcessor.parseExpression(expression, tesseuRequestContext);
+					final Boolean expressionResult = teseuExpectedProcessor.parseExpression(expression, tesseuRequestContext);
 					
 					if(!expressionResult) {
 						throw Minotaur.of(requestName + ".request contains error in expression" + expression);

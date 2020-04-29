@@ -16,7 +16,7 @@ import br.com.cafebinario.teseu.api.ExecutionStatus;
 import br.com.cafebinario.teseu.api.TeseuInvoker;
 import br.com.cafebinario.teseu.api.TeseuParse;
 import br.com.cafebinario.teseu.api.TeseuRegressiceTestAPI;
-import br.com.cafebinario.teseu.model.TeseuExpressionExpectedProcessor;
+import br.com.cafebinario.teseu.model.TeseuSpelExpectedProcessor;
 import br.com.cafebinario.teseu.model.TeseuManager;
 import br.com.cafebinario.teseu.model.TeseuRunMode;
 import lombok.SneakyThrows;
@@ -45,7 +45,7 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegr
 	private TeseuParse<String> teseuDBparse;
 	
 	@Autowired
-	private TeseuExpressionExpectedProcessor tesuExpectedProcessor;
+	private TeseuSpelExpectedProcessor teseuSpelExpectedProcessor;
 	
 	@Value("${br.com.cafebinario.teseu.run-mode:File}")
 	private String teseuRunMode;
@@ -71,7 +71,7 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegr
 					.teseuFileParse(teseuFileParse)
 					.teseuInvoker(teseuInvoker)
 					.teseuRunMode(TeseuRunMode.valueOf(teseuRunMode))
-					.tesuExpectedProcessor(tesuExpectedProcessor)
+					.teseuExpectedProcessor(teseuSpelExpectedProcessor)
 					.build()
 					.execute();
 			

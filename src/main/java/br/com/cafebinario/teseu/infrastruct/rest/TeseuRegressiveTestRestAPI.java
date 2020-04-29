@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cafebinario.teseu.api.ExecutionStatus;
+import br.com.cafebinario.teseu.api.TeseuExpectedProcessor;
 import br.com.cafebinario.teseu.api.TeseuInvoker;
 import br.com.cafebinario.teseu.api.TeseuParse;
 import br.com.cafebinario.teseu.api.TeseuRegressiceTestAPI;
-import br.com.cafebinario.teseu.model.TeseuExpressionExpectedProcessor;
 import br.com.cafebinario.teseu.model.TeseuManager;
 import br.com.cafebinario.teseu.model.TeseuRunMode;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +35,7 @@ public class TeseuRegressiveTestRestAPI implements TeseuRegressiceTestAPI {
 	private TeseuParse<String> teseuDBparse;
 	
 	@Autowired
-	private TeseuExpressionExpectedProcessor tesuExpectedProcessor;
+	private TeseuExpectedProcessor teseuExpectedProcessor;
 	
 	@Override
 	@PostMapping(path = "/{ordersName}/{teseuRunMode}")
@@ -50,7 +50,7 @@ public class TeseuRegressiveTestRestAPI implements TeseuRegressiceTestAPI {
 					.teseuFileParse(teseuFileParse)
 					.teseuInvoker(teseuInvoker)
 					.teseuRunMode(TeseuRunMode.valueOf(teseuRunMode))
-					.tesuExpectedProcessor(tesuExpectedProcessor)
+					.teseuExpectedProcessor(teseuExpectedProcessor)
 					.build()
 					.execute();
 			

@@ -9,8 +9,10 @@ import org.springframework.expression.ParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.stereotype.Component;
 
+import br.com.cafebinario.teseu.api.TeseuExpectedProcessor;
+
 @Component
-public class TeseuExpressionExpectedProcessor {
+public class TeseuSpelExpectedProcessor implements TeseuExpectedProcessor{
 	
 	@Autowired
 	private TeseuContext teseuContext;
