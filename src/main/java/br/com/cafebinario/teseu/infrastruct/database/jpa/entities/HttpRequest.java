@@ -1,9 +1,11 @@
-package br.com.cafebinario.teseu.infrastruct.database.entities;
+package br.com.cafebinario.teseu.infrastruct.database.jpa.entities;
 
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,25 +26,35 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(callSuper = false, of = { "id" })
 @ToString(callSuper = true)
-public class TeseuContext extends Audit {
+public class HttpRequest extends Audit {
 
-	private static final long serialVersionUID = -4613096910716079547L;
+	private static final long serialVersionUID = -4511985470857260915L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
-
-	@Column(nullable = false, unique = true)
-	private String name;
 	
-	@Column
-	private String variable;
+	@Column(nullable = false)
+	private String name;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private HttpMethod method;
+
+	@Column(nullable = false)
+	private String host;
 
 	@Column
-	private String value;
+	private String path;
+
+	@Column
+	private String body;
 
 	@OneToMany
-	private List<HttpRequest> requests;
+	private List<HttpHeaders> headers;
+
+	@ManyToOne
+	private TeseuContext teseuContext;
 
 	@ManyToOne
 	private Client client;

@@ -1,16 +1,11 @@
-package br.com.cafebinario.teseu.infrastruct.database.entities;
-
-import java.util.List;
+package br.com.cafebinario.teseu.infrastruct.database.jpa.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,36 +21,20 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(callSuper = false, of = { "id" })
 @ToString(callSuper = true)
-public class HttpRequest extends Audit {
+public class HttpHeaders extends Audit {
 
-	private static final long serialVersionUID = -4511985470857260915L;
+	private static final long serialVersionUID = -3512258128983249210L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
-	
-	@Column(nullable = false)
+
+	@Column
 	private String name;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	private HttpMethod method;
-
-	@Column(nullable = false)
-	private String host;
-
 	@Column
-	private String path;
-
-	@Column
-	private String body;
-
-	@OneToMany
-	private List<HttpHeaders> headers;
+	private String value;
 
 	@ManyToOne
-	private TeseuContext teseuContext;
-
-	@ManyToOne
-	private Client client;
+	private HttpRequest request;
 }

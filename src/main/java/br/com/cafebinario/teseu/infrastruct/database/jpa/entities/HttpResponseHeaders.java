@@ -1,13 +1,11 @@
-package br.com.cafebinario.teseu.infrastruct.database.entities;
-
-import java.util.List;
+package br.com.cafebinario.teseu.infrastruct.database.jpa.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,23 +21,20 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(callSuper = false, of = { "id" })
 @ToString(callSuper = true)
-public class HttpResponse extends Audit{
+public class HttpResponseHeaders extends Audit {
 
-	private static final long serialVersionUID = 3930587554096629155L;
+	private static final long serialVersionUID = 4392474576965188266L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
 
-	@Column(nullable = false)
-	private String inputSource;
-	
-	@Column(nullable = false)
-	private Integer statusCode;
-	
 	@Column
-	private String body;
+	private String name;
+
+	@Column
+	private String value;
 	
-	@OneToMany
-	private List<HttpResponseHeaders> httpResponseHeaders;
+	@ManyToOne
+	private HttpResponse httpResponse;
 }

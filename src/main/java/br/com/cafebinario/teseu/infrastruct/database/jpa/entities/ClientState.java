@@ -1,4 +1,4 @@
-package br.com.cafebinario.teseu.infrastruct.database.entities;
+package br.com.cafebinario.teseu.infrastruct.database.jpa.entities;
 
 public enum ClientState {
 

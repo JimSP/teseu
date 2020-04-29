@@ -1,11 +1,10 @@
-package br.com.cafebinario.teseu.infrastruct.database.entities;
+package br.com.cafebinario.teseu.infrastruct.database.jpa.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,22 +18,27 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Data
-@EqualsAndHashCode(callSuper = false, of = { "id" })
+@EqualsAndHashCode(callSuper = false, of = "id")
 @ToString(callSuper = true)
-public class HttpHeaders extends Audit {
+public class TeseuExecutionOrder extends Audit {
 
-	private static final long serialVersionUID = -3512258128983249210L;
-
+	private static final long serialVersionUID = 4783686341277834736L;
+	
+	public static String[] orderBy() {
+		
+		return new String[] { "executionOrder" };
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
-
-	@Column
-	private String name;
-
-	@Column
-	private String value;
-
-	@ManyToOne
-	private HttpRequest request;
+	
+	@Column(nullable = false)
+	private String testName;
+	
+	@Column(nullable = false)
+	private String apiName;
+	
+	@Column(nullable = false)
+	private Integer executionOrder;
 }
