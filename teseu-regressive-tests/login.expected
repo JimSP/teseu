@@ -1,1 +1,1 @@
-200=login.httpStatus
+200=$login.httpStatus

@@ -1,7 +1,7 @@
-200=get-home-logada.httpStatus
-0=get-home-logada.responseBody.avaliacaoNota
-A=get-home-logada.responseBody.clienteAtivo
-N=get-home-logada.responseBody.creciValidado
-S=get-home-logada.responseBody.emailValidado
-S=get-home-logada.responseBody.flAdvX
-S=get-home-logada.responseBody.flIago
+200=$get-home-logada.httpStatus
+0=$get-home-logada.responseBody.avaliacaoNota
+A=$get-home-logada.responseBody.clienteAtivo
+N=$get-home-logada.responseBody.creciValidado
+S=$get-home-logada.responseBody.emailValidado
+S=$get-home-logada.responseBody.flAdvX
+S=$get-home-logada.responseBody.flIago
