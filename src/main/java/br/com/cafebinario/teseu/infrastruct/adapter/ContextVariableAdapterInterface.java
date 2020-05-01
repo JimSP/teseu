@@ -14,4 +14,6 @@ public interface ContextVariableAdapterInterface {
  	
 	ContextVariable getById(Long id);
 	
+	void delete(Long id);
+	
 }

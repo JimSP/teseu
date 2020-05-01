@@ -10,12 +10,20 @@ public interface ContextVariableApi {
 
 
 	/***
-	 * Gravação/alteração de nova variável de contexto.
+	 * Gravação de nova variável de contexto.
 	 * 
 	 * @param variableContext
 	 * @return ContextVariable
 	 */
 	ContextVariable save(ContextVariable contextVariable);
+	
+	
+	/**
+	 * Alteração de variável de contexto.
+	 * 
+	 * @param contextVariable
+	 */
+	void update(ContextVariable contextVariable);
 
 	/***
 	 * Consulta paginada às variáveis de contexto.

@@ -46,5 +46,11 @@ public class ContextVariableAdapterImpl implements ContextVariableAdapterInterfa
 				.map(teseuContext->modelMapper.map(teseuContext, ContextVariable.class))
 				.orElseThrow(()->new ContextVariableNotFoundException(id));
 	}
+
+	@Override
+	public void delete(Long id) {
+		teseuContextRepository.deleteById(id);
+		
+	}
 	
 }
