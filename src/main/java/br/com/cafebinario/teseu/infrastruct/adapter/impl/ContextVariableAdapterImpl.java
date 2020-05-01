@@ -36,7 +36,7 @@ public class ContextVariableAdapterImpl implements ContextVariableAdapterInterfa
 	public List<ContextVariable> getAll(Pageable pageable) {
 		return teseuContextRepository.findAll(pageable)
 					.get()
-					.map(cidadeEntity->modelMapper.map(cidadeEntity, ContextVariable.class))
+					.map(teseuContextEntity->modelMapper.map(teseuContextEntity, ContextVariable.class))
 					.collect(Collectors.toList());
 	}
 

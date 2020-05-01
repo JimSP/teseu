@@ -2,6 +2,9 @@ package br.com.cafebinario.teseu.infrastruct.rest.dto;
 
 import java.util.LinkedHashSet;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,7 +21,11 @@ import lombok.experimental.SuperBuilder;
 public class RegressiveTest {
 
 	private Long id;
+	
+	@NotBlank
 	private String name;
+	
+	@NotNull
 	private LinkedHashSet<Api> sequenceOfApis;
 	
 }
