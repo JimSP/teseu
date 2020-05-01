@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = false)
-public final class Minotaur extends Exception{
+public final class Minotaur extends Exception {
 
 	private static final long serialVersionUID = 7660404106123057506L;
 

@@ -1,6 +1,7 @@
 package br.com.cafebinario.teseu.infrastruct.rest;
 
 import java.nio.file.Path;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.cafebinario.teseu.api.ExecutionStatus;
 import br.com.cafebinario.teseu.api.TeseuExpectedProcessor;
 import br.com.cafebinario.teseu.api.TeseuInvoker;
+import br.com.cafebinario.teseu.api.TeseuNotification;
 import br.com.cafebinario.teseu.api.TeseuParse;
 import br.com.cafebinario.teseu.api.TeseuRegressiceTestAPI;
 import br.com.cafebinario.teseu.model.TeseuManager;
@@ -37,6 +39,10 @@ public class TeseuRegressiveTestRestAPI implements TeseuRegressiceTestAPI {
 	@Autowired
 	private TeseuExpectedProcessor teseuExpectedProcessor;
 	
+	@Autowired
+	@Qualifier("teseuEmailNotification")
+	private TeseuNotification teseuNotification;
+	
 	@Override
 	@PostMapping(path = "/{ordersName}/{teseuRunMode}")
 	public ExecutionStatus execute(@PathVariable(name = "ordersName", required = true) final String ordersName, @PathVariable("teseuRunMode") final String teseuRunMode) {
@@ -50,7 +56,8 @@ public class TeseuRegressiveTestRestAPI implements TeseuRegressiceTestAPI {
 					.teseuFileParse(teseuFileParse)
 					.teseuInvoker(teseuInvoker)
 					.teseuRunMode(TeseuRunMode.valueOf(teseuRunMode))
-					.teseuExpectedProcessor(teseuExpectedProcessor)
+					.teseuExpectedProcessor(Optional.of(teseuExpectedProcessor))
+					.teseuNotification(Optional.of(teseuNotification))
 					.build()
 					.execute();
 			
