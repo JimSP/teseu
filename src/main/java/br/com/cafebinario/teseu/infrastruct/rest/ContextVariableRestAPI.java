@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,7 +54,7 @@ public class ContextVariableRestAPI implements ContextVariableApi {
 	}
 
 	@Override
-	@DeleteMapping(path = "/context/{id}")
+	@DeleteMapping(path = "/{id}")
 	@ResponseStatus(code = HttpStatus.OK)
 	public void remover(Long id) {
 		contextVariableAdapterInterface.delete(id);
@@ -61,6 +62,7 @@ public class ContextVariableRestAPI implements ContextVariableApi {
 	}
 
 	@Override
+	@PutMapping
 	@ResponseStatus(code = HttpStatus.OK)
 	public @ResponseBody void update(@Valid @RequestBody final ContextVariable contextVariable) {
 		contextVariableAdapterInterface.save(contextVariable);
