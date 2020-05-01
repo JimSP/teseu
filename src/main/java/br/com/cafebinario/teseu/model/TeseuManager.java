@@ -6,13 +6,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import br.com.cafebinario.teseu.api.ExecutionStatus;
 import br.com.cafebinario.teseu.api.TeseuExpectedProcessor;
 import br.com.cafebinario.teseu.api.TeseuInvoker;
+import br.com.cafebinario.teseu.api.TeseuNotification;
 import br.com.cafebinario.teseu.api.TeseuParse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -28,7 +31,8 @@ public final class TeseuManager {
 	private final TeseuInvoker teseuInvoker;
 	private final TeseuParse<Path> teseuFileParse;
 	private final TeseuParse<String> teseuDBparse;
-	private final TeseuExpectedProcessor teseuExpectedProcessor;
+	private final Optional<TeseuExpectedProcessor> teseuExpectedProcessor;
+	private final Optional<TeseuNotification> teseuNotification;
 	
 	public ExecutionStatus execute() {
 
@@ -73,21 +77,32 @@ public final class TeseuManager {
 				
 				for (final String expression : expressions) {
 					
-					final Boolean expressionResult = teseuExpectedProcessor.parseExpression(expression, tesseuRequestContext);
-					
-					if(!expressionResult) {
-						throw Minotaur.of(requestName + ".request contains error in expression" + expression);
-					}
+					teseuExpectedProcessor
+						.ifPresent(consumer->{
+							parseExpression(requestName, expression, consumer);
+						});
 				}
 
 			}catch (final Throwable t) {
 				
 				teseuParse.write(name, tesseuRequestContext, requestName, t);
 				
-				throw Minotaur.of("Theseus was lost in the maze on the way [" + name + "/" + requestName + "!]", t);
+				teseuNotification
+					.ifPresent(consumer->consumer.sendReport(name + "." + requestName, t));
+				
+				throw Minotaur.of("Theseus was lost in the maze on the way [" + name + "." + requestName + "!]", t);
 			}
 		}
 		
 		tesseuRequestContext.clear();
+	}
+
+	@SneakyThrows
+	private <T> void parseExpression(final T requestName, final String expression, final TeseuExpectedProcessor teseuExpectedProcessor) {
+		final Boolean expressionResult = teseuExpectedProcessor.parseExpression(expression, tesseuRequestContext);
+		
+		if(!expressionResult) {
+			throw Minotaur.of(requestName + ".request contains error in expression" + expression);
+		}
 	}
 }
