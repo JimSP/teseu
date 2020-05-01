@@ -1,5 +1,7 @@
 package br.com.cafebinario.teseu.model.notification;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -8,6 +10,7 @@ import com.slack.api.Slack;
 import com.slack.api.methods.MethodsClient;
 import com.slack.api.methods.request.chat.ChatPostMessageRequest;
 import com.slack.api.methods.response.chat.ChatPostMessageResponse;
+import com.slack.api.model.Attachment;
 
 import br.com.cafebinario.teseu.api.TeseuNotification;
 import lombok.SneakyThrows;
@@ -32,12 +35,18 @@ public class TeseuSlackNotification implements TeseuNotification{
 		
 		final MethodsClient methods = slackClient.methods(slackToken);
 
-		final ChatPostMessageRequest request = ChatPostMessageRequest.builder()
-		  .channel(slackChannelId)
-		  .text(t.getMessage())
-		  .build();
-
-		final ChatPostMessageResponse response = methods.chatPostMessage(request);
+		final ChatPostMessageRequest chatPostMessageRequest = ChatPostMessageRequest
+																	.builder()
+																	.text(t.getMessage())
+																	.attachments(Arrays.asList(Attachment
+																								.builder()
+																								.title(name)
+																								.text(t.toString())
+																								.build()))
+																	.channel(slackChannelId)
+																	.build();
+		
+		final ChatPostMessageResponse response = methods.chatPostMessage(chatPostMessageRequest);
 		
 		log.debug("m=sendReport, response={}", response);
 	}
