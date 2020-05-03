@@ -46,6 +46,10 @@ repositories {
 	jcenter{
 		url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/'
 	}
+	
+	maven{
+		url 'https://packages.atlassian.com/maven/repository/public'
+	}
 }
 
 dependencies {

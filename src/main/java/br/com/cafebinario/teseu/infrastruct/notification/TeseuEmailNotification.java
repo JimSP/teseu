@@ -1,4 +1,4 @@
-package br.com.cafebinario.teseu.model.notification;
+package br.com.cafebinario.teseu.infrastruct.notification;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

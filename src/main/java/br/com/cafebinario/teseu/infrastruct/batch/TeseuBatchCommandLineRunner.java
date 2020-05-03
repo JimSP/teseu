@@ -1,7 +1,10 @@
 package br.com.cafebinario.teseu.infrastruct.batch;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,10 +21,10 @@ import br.com.cafebinario.teseu.api.TeseuInvoker;
 import br.com.cafebinario.teseu.api.TeseuNotification;
 import br.com.cafebinario.teseu.api.TeseuParse;
 import br.com.cafebinario.teseu.api.TeseuRegressiceTestAPI;
-import br.com.cafebinario.teseu.model.TeseuSpelExpectedProcessor;
+import br.com.cafebinario.teseu.infrastruct.notification.TeseuNotificationMode;
 import br.com.cafebinario.teseu.model.TeseuManager;
-import br.com.cafebinario.teseu.model.TeseuNotificationMode;
 import br.com.cafebinario.teseu.model.TeseuRunMode;
+import br.com.cafebinario.teseu.model.TeseuSpelExpectedProcessor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,9 +45,6 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegr
 	@Value("${br.com.cafebinario.teseu.run-mode:File}")
 	private String teseuRunMode;
 	
-	@Value("${br.com.cafebinario.teseu.notification-mode:None}")
-	private String teseuNotificationModeString;
-	
 	@Autowired
 	@Qualifier("teseuFileParse")
 	private TeseuParse<Path> teseuFileParse;
@@ -53,16 +53,14 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegr
 	@Qualifier("teseuDBparse")
 	private TeseuParse<String> teseuDBparse;
 	
+	@Value("${br.com.cafebinario.teseu.notification-mode:None}")
+	private List<TeseuNotificationMode> teseuNotificationModes;
+	
+	@Autowired
+	private List<TeseuNotification> teseuNotifications;
+	
 	@Autowired
 	private TeseuSpelExpectedProcessor teseuSpelExpectedProcessor;
-	
-	@Autowired
-	@Qualifier("teseuEmailNotification")
-	private TeseuNotification teseuEmailNotification;
-	
-	@Autowired
-	@Qualifier("teseuSlackNotification")
-	private TeseuNotification teseuSlackNotification;
 	
 	@Override
 	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
@@ -77,21 +75,43 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegr
 		
 		try {
 			
-			final TeseuNotificationMode teseuNotificationMode = TeseuNotificationMode.valueOf(teseuNotificationModeString);
-			final Optional<TeseuNotification> teseuNotification = createNotification(ordersName, teseuNotificationMode);
-			
-			return TeseuManager
-					.builder()
-					.name(name)
-					.ordersName(ordersName)
-					.teseuDBparse(teseuDBparse)
-					.teseuFileParse(teseuFileParse)
-					.teseuInvoker(teseuInvoker)
-					.teseuRunMode(TeseuRunMode.valueOf(teseuRunMode))
-					.teseuExpectedProcessor(Optional.of(teseuSpelExpectedProcessor))
-					.teseuNotification(teseuNotification)
-					.build()
-					.execute();
+			if(TeseuRunMode.valueOf(teseuRunMode) == TeseuRunMode.File) {
+				return TeseuManager
+						.<Path>builder()
+						.name(Paths.get(name))
+						.ordersName(Paths.get(ordersName))
+						.teseuparse(teseuFileParse)
+						.teseuInvoker(teseuInvoker)
+						.teseuExpectedProcessor(Optional.of(teseuSpelExpectedProcessor))
+						.teseuNotifications(teseuNotifications
+												.stream()
+												.filter(teseuNotification->teseuNotificationModes
+																				.stream()
+																				.anyMatch(mode->teseuNotification
+																									.getClass()
+																									.isAssignableFrom(mode.getNotyficationType())))
+												.collect(Collectors.toList()))
+						.build()
+						.execute();
+			}else {
+				return TeseuManager
+						.<String>builder()
+						.name(name)
+						.ordersName(ordersName)
+						.teseuparse(teseuDBparse)
+						.teseuInvoker(teseuInvoker)
+						.teseuExpectedProcessor(Optional.of(teseuSpelExpectedProcessor))
+						.teseuNotifications(teseuNotifications
+												.stream()
+												.filter(teseuNotification->teseuNotificationModes
+																				.stream()
+																				.anyMatch(mode->teseuNotification
+																									.getClass()
+																									.isAssignableFrom(mode.getNotyficationType())))
+												.collect(Collectors.toList()))
+						.build()
+						.execute();
+			}
 			
 		}catch (Exception e) {
 			
@@ -99,48 +119,5 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegr
 			
 			return ExecutionStatus.Error;
 		}
-	}
-
-	private Optional<TeseuNotification> createNotification(final String ordersName, final TeseuNotificationMode teseuNotificationMode) {
-		return teseuNotificationMode == TeseuNotificationMode.Email ? Optional.of(teseuEmailNotification)
-				: teseuNotificationMode == TeseuNotificationMode.Slack ? Optional.of(teseuSlackNotification)
-						: teseuNotificationMode == TeseuNotificationMode.None ? Optional.empty()
-								
-								: Optional.of(new TeseuNotification() {
-
-									@Override
-									public void sendReport(String name, Throwable t) {
-
-										final Exception[] errors = new Exception[2];
-
-										try {
-											teseuEmailNotification.sendReport(ordersName, t);
-										} catch (Exception e) {
-											errors[0] = e;
-										}
-
-										try {
-											teseuSlackNotification.sendReport(ordersName, t);
-										} catch (Exception e) {
-											errors[1] = e;
-
-											if (errors[0] == null) {
-												throw e;
-											}
-										}
-
-										if (errors[0] != null) {
-											final RuntimeException e0 = new RuntimeException(errors[0]);
-											final RuntimeException e1 = new RuntimeException(errors[1]);
-
-											if (e0 != null) {
-												if (e1 != null) {
-													e0.addSuppressed(e1);
-												}
-												throw e0;
-											}
-										}
-									}
-								});
 	}
 }

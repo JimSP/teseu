@@ -1,4 +1,4 @@
-package br.com.cafebinario.teseu.model.notification;
+package br.com.cafebinario.teseu.infrastruct.notification;
 
 import java.util.Arrays;
 
