@@ -4,4 +4,4 @@ A=$get-home-logada.responseBody.clienteAtivo
 N=$get-home-logada.responseBody.creciValidado
 S=$get-home-logada.responseBody.emailValidado
 S=$get-home-logada.responseBody.flAdvX
-N=$get-home-logada.responseBody.flIago
+S=$get-home-logada.responseBody.flIago
