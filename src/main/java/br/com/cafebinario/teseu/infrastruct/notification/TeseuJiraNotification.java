@@ -1,6 +1,7 @@
 package br.com.cafebinario.teseu.infrastruct.notification;
 
 import java.net.URI;
+import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +25,11 @@ public class TeseuJiraNotification implements TeseuNotification{
 	@Value("${br.com.cafebinario.teseu.notification.jira.url}")
 	private String jiraServer;
 	
-	@Value("${br.com.cafebinario.teseu.notification.jira.token}")
-	private String token;
+	@Value("${br.com.cafebinario.teseu.notification.jira.username}")
+	private String username;
+	
+	@Value("${br.com.cafebinario.teseu.notification.jira.tokenApi}")
+	private String tokenApi;
 	
 	@Value("${br.com.cafebinario.teseu.notification.jira.projectKey:TES}")
 	private String projectKey;
@@ -39,8 +43,10 @@ public class TeseuJiraNotification implements TeseuNotification{
 	@Override
 	public void sendReport(final String name, final Throwable t) {
 		
+		final String basicAuthorizationToken = "Basic " + Base64.getEncoder().encodeToString(String.format("%s:%s", username, tokenApi).getBytes());
+		
 		final HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", token);
+		headers.add("Authorization", basicAuthorizationToken);
 		headers.add("Content-Type", "application/json");
 		headers.add("Accept", "application/json");
 		
