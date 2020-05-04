@@ -17,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(callSuper = false, of = { "id" })
 @ToString(callSuper = true)
-public class Api {
+public class RequestApi {
  
 	private Long id;
 	

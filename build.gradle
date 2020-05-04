@@ -55,6 +55,8 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	
+	compile group: 'org.modelmapper', name: 'modelmapper', version: '2.3.7'
+	
 	compile 'org.springframework.plugin:spring-plugin-core'
 	
 	compile 'br.com.cafebinario:logger-annotation:1.0.0-RELEASE'
