@@ -33,7 +33,7 @@ public class TeseuEmailNotification implements TeseuNotification {
 	@Override
 	@SneakyThrows
 	public void sendReport(final String name, final Throwable t) {
-	
+		
 		try(final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()){
 			
 			final MimeMessage mimeMessage = emailSender.createMimeMessage();
