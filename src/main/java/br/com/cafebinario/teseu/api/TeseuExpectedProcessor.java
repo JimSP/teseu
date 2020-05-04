@@ -2,8 +2,10 @@ package br.com.cafebinario.teseu.api;
 
 import java.util.Map;
 
+import br.com.cafebinario.teseu.model.ExpectedResult;
+
 @FunctionalInterface
 public interface TeseuExpectedProcessor {
 
-	Boolean parseExpression(final String expressionString, final Map<String, String> tesseuRequestContext);
+	ExpectedResult parseExpression(final String expressionString, final Map<String, String> tesseuRequestContext);
 }

@@ -16,19 +16,44 @@ public class TeseuSpelExpectedProcessor implements TeseuExpectedProcessor{
 	
 	@Autowired
 	private TeseuContext teseuContext;
-	
-	public Boolean parseExpression(final String expressionString, final Map<String, String> tesseuRequestContext) {
 		
-		final String condition = expressionString.substring(0, expressionString.indexOf("="));
+	public ExpectedResult parseExpression(final String expressionString, final Map<String, String> teseuRequestContext) {
+
+		final String condition = extractCondition(expressionString);
 		
-		teseuContext.setContext(tesseuRequestContext);
+		final String actual = getProcessValue(expressionString, teseuRequestContext);
+		
+		final Boolean sucess = condition.equals(actual);
+		
+		return ExpectedResult
+					.builder()
+					.expected(condition)
+					.actual(actual)
+					.sucess(sucess)
+					.build();
+	}
+
+	private String getProcessValue(final String expressionString, final Map<String, String> teseuRequestContext) {
+		
+		teseuContext.setContext(teseuRequestContext);
 		
 		final ExpressionParser expressionParser = new SpelExpressionParser();
 		
 		final ParserContext parserContext = ParserContext.TEMPLATE_EXPRESSION;
 		
-		final Expression expression = expressionParser.parseExpression("#{context.get(\"" + expressionString.substring(expressionString.indexOf("$") + 1) + "\")}", parserContext);
+		parse(expressionString, expressionParser, parserContext);
+		
+		final Expression expression = parse(expressionString, expressionParser, parserContext);
+		
+		return String.valueOf(expression.getValue(teseuContext));
+	}
 
-		return condition.equals(String.valueOf(expression.getValue(teseuContext)));
+	private String extractCondition(final String expressionString) {
+		return expressionString.substring(0, expressionString.indexOf("="));
+	}
+
+	private Expression parse(final String expressionString, final ExpressionParser expressionParser,
+			final ParserContext parserContext) {
+		return expressionParser.parseExpression("#{context.get(\"" + expressionString.substring(expressionString.indexOf("$") + 1) + "\")}", parserContext);
 	}
 }

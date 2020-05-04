@@ -1,2 +1,2 @@
 path:get-home-logada.request
-error:Minotaur(super=br.com.cafebinario.teseu.model.Minotaur: get-home-logada.request.request contains error in expressionN=$get-home-logada.responseBody.flIago)
+error:Minotaur(super=br.com.cafebinario.teseu.model.Minotaur: get-home-logada.request.request contains error in expression N=$get-home-logada.responseBody.flIago, actual=S, expected=N)

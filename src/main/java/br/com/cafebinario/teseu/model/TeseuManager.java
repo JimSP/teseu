@@ -99,10 +99,11 @@ public final class TeseuManager<T> {
 
 	@SneakyThrows
 	private void parseExpression(final T requestName, final String expression, final TeseuExpectedProcessor teseuExpectedProcessor) {
-		final Boolean expressionResult = teseuExpectedProcessor.parseExpression(expression, tesseuRequestContext);
+		final ExpectedResult expectedResult = teseuExpectedProcessor.parseExpression(expression, tesseuRequestContext);
 		
-		if(!expressionResult) {
-			throw Minotaur.of(requestName + ".request contains error in expression" + expression);
+		if(!expectedResult.getSucess()) {
+			throw Minotaur.of(String.format("%s.request contains error in expression %s, actual=%s, expected=%s",
+					requestName, expression, expectedResult.getActual(), expectedResult.getExpected()));
 		}
 	}
 }
