@@ -1,0 +1,6 @@
+GET /imovel/findByCliente?idCliente=$idCliente&idTipoAnuncio=$idTipoAnuncio&idTipoImovel=$idTipoImovel&idStatusObra=$idStatusObra&ativo=$ativo&idStatus=$idStatus&idPlano=$idPlano&flFifty=$flFifty&idUsuarioCliente=$idUsuarioCliente&turbinados=$turbinados&orderRecentes=$orderRecentes&orderAntigos=$orderAntigos&orderMenorValor=$orderMenorValor&orderMaiorValor=$orderMaiorValor&orderAreaMaior=$orderAreaMaior&orderAreaMenor=$orderAreaMenor&destaque=$destaque&tokenPaginacao=$tokenPaginacao&comMatch=$comMatch=$idCliente=$idCliente&idTipoAnuncio=$idTipoAnuncio&idTipoImovel=$idTipoImovel&idStatusObra=$idStatusObra&ativo=$ativo&idStatus=$idStatus&idPlano=$idPlano&flFifty=$flFifty&idUsuarioCliente=$idUsuarioCliente&turbinados=$turbinados&orderRecentes=$orderRecentes&orderAntigos=$orderAntigos&orderMenorValor=$orderMenorValor&orderMaiorValor=$orderMaiorValor&orderAreaMaior=$orderAreaMaior&orderAreaMenor=$orderAreaMenor&destaque=$destaque&tokenPaginacao=$tokenPaginacao&comMatch=$comMatch
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

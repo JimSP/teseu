@@ -1,0 +1,6 @@
+POST /pagamentoPlanoCorretor/boleto
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$CreatePagamentoBoletoPlanoCorretorRequest

@@ -1,0 +1,6 @@
+PUT /cliente/fotoCreci
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$fotoCreciRequest

@@ -1,0 +1,5 @@
+PUT /util/registraLeituraChat?idChatAgenteCorretor=$idChatAgenteCorretor&idCliente=$idCliente=$idChatAgenteCorretor=$idChatAgenteCorretor&idCliente=$idCliente
+accept:application/json
+Content-Type:application/json
+
+

@@ -1,0 +1,6 @@
+PUT /imagemImovel/update
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$ImagemImovelRequest

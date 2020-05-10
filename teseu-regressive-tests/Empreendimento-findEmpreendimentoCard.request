@@ -1,0 +1,6 @@
+GET /Empreendimento/findEmpreendimentoCard?idCidade=$idCidade&idBairro=$idBairro=$idCidade=$idCidade&idBairro=$idBairro
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

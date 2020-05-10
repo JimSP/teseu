@@ -1,0 +1,6 @@
+GET /plano/consultarPlano?idPlano=$idPlano=$idPlano=$idPlano
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

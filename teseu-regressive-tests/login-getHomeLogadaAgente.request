@@ -1,0 +1,6 @@
+GET /login/getHomeLogadaAgente?idCliente=$idCliente=$idCliente=$idCliente
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

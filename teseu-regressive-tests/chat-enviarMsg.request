@@ -1,0 +1,6 @@
+POST /chat/enviarMsg?idChatAgenteCorretor=$idChatAgenteCorretor&chatMsg=$chatMsg=$idChatAgenteCorretor=$idChatAgenteCorretor&chatMsg=$chatMsg
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

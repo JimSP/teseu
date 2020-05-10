@@ -1,0 +1,6 @@
+POST /anuncio/turbinar?idImovel=$idImovel&idCliente=$idCliente&Mensagem=$Mensagem=$idImovel=$idImovel&idCliente=$idCliente&Mensagem=$Mensagem
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

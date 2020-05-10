@@ -1,0 +1,6 @@
+PUT /cliente/fotoLogin
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$FotoLoginRequest

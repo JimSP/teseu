@@ -1,0 +1,5 @@
+POST /proposta/pedido/criar
+accept:application/json
+Content-Type:application/json
+
+$PropostaPedidoCreateRequest

@@ -1,0 +1,6 @@
+POST /propostaAgente/avaliarAgenteCorretor
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$AvaiacaoPropostaAgenteCorretorDto

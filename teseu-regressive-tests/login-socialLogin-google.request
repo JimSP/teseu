@@ -1,0 +1,7 @@
+POST /login/socialLogin/google
+accept:application/json
+Content-Type:application/json
+idToken=$idToken
+userName=$userName
+
+

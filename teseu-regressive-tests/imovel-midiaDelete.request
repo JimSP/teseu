@@ -1,0 +1,6 @@
+POST /imovel/midiaDelete?idMidiaImovel=$idMidiaImovel=$idMidiaImovel=$idMidiaImovel
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

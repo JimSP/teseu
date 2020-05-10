@@ -1,0 +1,6 @@
+GET /propostaAgente/detalheRecebida?idPropostaAgente=$idPropostaAgente=$idPropostaAgente=$idPropostaAgente
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

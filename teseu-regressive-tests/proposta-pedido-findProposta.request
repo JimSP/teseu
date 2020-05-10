@@ -1,0 +1,6 @@
+GET /proposta/pedido/findProposta?idPropostaPedido=$idPropostaPedido=$idPropostaPedido=$idPropostaPedido
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

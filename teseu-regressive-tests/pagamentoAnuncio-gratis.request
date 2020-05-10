@@ -1,0 +1,6 @@
+POST /pagamentoAnuncio/gratis
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$CreatePagamentoGratisRequest

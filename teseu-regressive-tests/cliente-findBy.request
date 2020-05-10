@@ -1,0 +1,6 @@
+GET /cliente/findBy?id=$id=$id=$id
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

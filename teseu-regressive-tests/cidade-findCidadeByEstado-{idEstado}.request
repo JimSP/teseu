@@ -1,0 +1,6 @@
+GET /cidade/findCidadeByEstado/$idEstado
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

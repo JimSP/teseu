@@ -1,0 +1,6 @@
+POST /imovel/app/findByCliente
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$ImovelClienteAppRequest

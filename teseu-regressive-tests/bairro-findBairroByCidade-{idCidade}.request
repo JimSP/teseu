@@ -1,0 +1,6 @@
+GET /bairro/findBairroByCidade/$idCidade
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

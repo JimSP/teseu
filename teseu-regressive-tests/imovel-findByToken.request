@@ -1,0 +1,6 @@
+GET /imovel/findByToken
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

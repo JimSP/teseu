@@ -1,0 +1,6 @@
+POST /imovel/qtdViewImovel?idCliente=$idCliente&idImovel=$idImovel=$idCliente=$idCliente&idImovel=$idImovel
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

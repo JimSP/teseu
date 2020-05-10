@@ -1,0 +1,6 @@
+GET /tipoLogradouro/$idTipoLogradouro
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

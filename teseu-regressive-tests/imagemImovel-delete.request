@@ -1,0 +1,6 @@
+GET /imagemImovel/delete?idImagem=$idImagem=$idImagem=$idImagem
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

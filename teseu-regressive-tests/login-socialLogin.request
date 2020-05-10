@@ -1,0 +1,5 @@
+POST /login/socialLogin
+accept:application/json
+Content-Type:application/json
+
+$SocialLoginRequest

@@ -1,0 +1,6 @@
+POST /cliente/convidarUsuarioCliente?idCliente=$idCliente&email=$email=$idCliente=$idCliente&email=$email
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

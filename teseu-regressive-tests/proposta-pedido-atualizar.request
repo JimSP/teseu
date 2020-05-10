@@ -1,0 +1,5 @@
+PUT /proposta/pedido/atualizar?idPropostaPedido=$idPropostaPedido&flAceito=$flAceito=$idPropostaPedido=$idPropostaPedido&flAceito=$flAceito
+accept:application/json
+Content-Type:application/json
+
+

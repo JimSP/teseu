@@ -1,0 +1,5 @@
+GET /util/getDadosAgente?idClienteAgente=$idClienteAgente=$idClienteAgente=$idClienteAgente
+accept:application/json
+Content-Type:application/json
+
+

@@ -1,0 +1,6 @@
+DELETE /notificacao/deleteNotificacao?idCliente=$idCliente&idNotificacao=$idNotificacao=$idCliente=$idCliente&idNotificacao=$idNotificacao
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

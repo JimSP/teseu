@@ -1,0 +1,6 @@
+GET /anuncio/match?idImovel=$idImovel=$idImovel=$idImovel
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

@@ -1,0 +1,6 @@
+GET /imovel/busca/findImovelBy/$idImovel
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

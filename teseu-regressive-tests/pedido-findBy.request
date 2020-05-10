@@ -1,0 +1,6 @@
+POST /pedido/findBy
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$PedidoFindByDto

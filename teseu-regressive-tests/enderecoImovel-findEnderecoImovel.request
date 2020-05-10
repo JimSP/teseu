@@ -1,0 +1,6 @@
+GET /enderecoImovel/findEnderecoImovel?descricaoEnderereco=$descricaoEnderereco=$descricaoEnderereco=$descricaoEnderereco
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

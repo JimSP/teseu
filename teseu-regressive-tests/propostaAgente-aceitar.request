@@ -1,0 +1,6 @@
+GET /propostaAgente/aceitar?idPropostaAgente=$idPropostaAgente&flAceiteTermos=$flAceiteTermos=$idPropostaAgente=$idPropostaAgente&flAceiteTermos=$flAceiteTermos
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

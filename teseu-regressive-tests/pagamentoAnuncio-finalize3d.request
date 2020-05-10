@@ -1,0 +1,6 @@
+POST /pagamentoAnuncio/finalize3d
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

@@ -1,0 +1,6 @@
+PUT /imovel/update
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$ImovelUpdateRequest

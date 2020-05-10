@@ -1,0 +1,6 @@
+GET /imovel/findImovelRepetidoBy?idCliente=$idCliente&idTipoImovel=$idTipoImovel&idTipoAnuncio=$idTipoAnuncio&idLogradouro=$idLogradouro&numeroLogradouro=$numeroLogradouro=$idCliente=$idCliente&idTipoImovel=$idTipoImovel&idTipoAnuncio=$idTipoAnuncio&idLogradouro=$idLogradouro&numeroLogradouro=$numeroLogradouro
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

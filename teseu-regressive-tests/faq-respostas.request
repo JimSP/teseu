@@ -1,0 +1,6 @@
+GET /faq/respostas?idCategoria=$idCategoria=$idCategoria=$idCategoria
+accept:application/json
+Content-Type:application/json
+urlToken=$urlToken
+
+

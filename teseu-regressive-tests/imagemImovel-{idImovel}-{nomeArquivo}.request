@@ -1,0 +1,6 @@
+GET /imagemImovel/$idImovel/$nomeArquivo
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

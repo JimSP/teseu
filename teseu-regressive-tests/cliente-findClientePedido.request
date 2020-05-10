@@ -1,0 +1,6 @@
+GET /cliente/findClientePedido?idCliente=$idCliente&idPedido=$idPedido=$idCliente=$idCliente&idPedido=$idPedido
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

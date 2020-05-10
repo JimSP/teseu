@@ -1,0 +1,6 @@
+GET /agente/findAgenteCorretor?tokenPaginacao=$tokenPaginacao=$tokenPaginacao=$tokenPaginacao
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

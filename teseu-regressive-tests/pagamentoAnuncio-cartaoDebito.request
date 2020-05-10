@@ -1,0 +1,6 @@
+POST /pagamentoAnuncio/cartaoDebito
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$DebitoRequest

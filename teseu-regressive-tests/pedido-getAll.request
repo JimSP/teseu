@@ -1,0 +1,6 @@
+GET /pedido/getAll
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

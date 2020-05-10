@@ -1,0 +1,6 @@
+PUT /anuncio/ativarDestaque
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$AtivaDestaqueRequest

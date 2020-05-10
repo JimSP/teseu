@@ -1,0 +1,6 @@
+GET /agente/perfilAgenteCorretor?idAgente=$idAgente=$idAgente=$idAgente
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

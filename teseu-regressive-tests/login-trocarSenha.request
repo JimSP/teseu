@@ -1,0 +1,5 @@
+PUT /login/trocarSenha
+accept:application/json
+Content-Type:application/json
+
+$TrocarSenhaDto

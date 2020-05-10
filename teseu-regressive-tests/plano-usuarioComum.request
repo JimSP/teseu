@@ -1,0 +1,6 @@
+GET /plano/usuarioComum
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

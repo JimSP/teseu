@@ -1,0 +1,6 @@
+POST /anuncio/turbinar/aceite?idTurbinar=$idTurbinar&aceite=$aceite=$idTurbinar=$idTurbinar&aceite=$aceite
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

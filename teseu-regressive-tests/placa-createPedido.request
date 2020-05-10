@@ -1,0 +1,6 @@
+POST /placa/createPedido
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$CreatePedidoRequest

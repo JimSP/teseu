@@ -1,0 +1,5 @@
+GET /login/ativar/$token
+accept:application/json
+Content-Type:application/json
+
+

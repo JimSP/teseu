@@ -1,0 +1,6 @@
+POST /mensagemImovel/create
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$MensagemImovelRequest

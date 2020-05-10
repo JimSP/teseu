@@ -1,0 +1,6 @@
+POST /pedido/arquivarPedido?idStatusPedido=$idStatusPedido&idCliente=$idCliente&idStatus=$idStatus&idMotivoStatus=$idMotivoStatus=$idStatusPedido=$idStatusPedido&idCliente=$idCliente&idStatus=$idStatus&idMotivoStatus=$idMotivoStatus
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

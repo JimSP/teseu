@@ -1,0 +1,6 @@
+GET /imovel/findImoveCorretorBy?idTipoAnuncio=$idTipoAnuncio&idTipoImovel=$idTipoImovel&idImovel=$idImovel&idCliente=$idCliente&idStatusObra=$idStatusObra&bairro=$bairro&cidade=$cidade&estado=$estado&qtdQuarto=$qtdQuarto&qtdVaga=$qtdVaga&qtdBanheiro=$qtdBanheiro&qtdSuite=$qtdSuite&areaMinima=$areaMinima&areaMaxima=$areaMaxima&valorMinino=$valorMinino&valorMaximo=$valorMaximo&aceitaImovel=$aceitaImovel&mesmoValor=$mesmoValor&menorValor=$menorValor&maiorValor=$maiorValor&longitude=$longitude&latitude=$latitude&raio=$raio&caracteristicas=$caracteristicas&areasComuns=$areasComuns=$idTipoAnuncio=$idTipoAnuncio&idTipoImovel=$idTipoImovel&idImovel=$idImovel&idCliente=$idCliente&idStatusObra=$idStatusObra&bairro=$bairro&cidade=$cidade&estado=$estado&qtdQuarto=$qtdQuarto&qtdVaga=$qtdVaga&qtdBanheiro=$qtdBanheiro&qtdSuite=$qtdSuite&areaMinima=$areaMinima&areaMaxima=$areaMaxima&valorMinino=$valorMinino&valorMaximo=$valorMaximo&aceitaImovel=$aceitaImovel&mesmoValor=$mesmoValor&menorValor=$menorValor&maiorValor=$maiorValor&longitude=$longitude&latitude=$latitude&raio=$raio&caracteristicas=$caracteristicas&areasComuns=$areasComuns
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

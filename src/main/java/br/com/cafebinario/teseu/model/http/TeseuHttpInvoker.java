@@ -3,6 +3,7 @@ package br.com.cafebinario.teseu.model.http;
 import static br.com.cafebinario.teseu.model.TeseuConstants.BODY;
 import static br.com.cafebinario.teseu.model.TeseuConstants.EMPTY;
 import static br.com.cafebinario.teseu.model.TeseuConstants.ENTRY_FORMAT;
+import static br.com.cafebinario.teseu.model.TeseuConstants.FILENAME_KEY;
 import static br.com.cafebinario.teseu.model.TeseuConstants.HEADERS;
 import static br.com.cafebinario.teseu.model.TeseuConstants.HOST;
 import static br.com.cafebinario.teseu.model.TeseuConstants.HTTP_STATUS;
@@ -11,7 +12,6 @@ import static br.com.cafebinario.teseu.model.TeseuConstants.METHOD;
 import static br.com.cafebinario.teseu.model.TeseuConstants.RESPONSE_BODY;
 import static br.com.cafebinario.teseu.model.TeseuConstants.RESPONSE_HEADERS;
 import static br.com.cafebinario.teseu.model.TeseuConstants.URI;
-import static br.com.cafebinario.teseu.model.TeseuConstants.FILENAME_KEY;
 
 import java.util.Arrays;
 import java.util.Base64;
@@ -29,8 +29,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.POJONode;
@@ -57,24 +60,31 @@ class TeseuHttpInvoker implements TeseuInvoker {
 		final HttpHeaders headers = toHttpHeaders(teseuRequestContext);
 		final String body = teseuRequestContext.get(BODY);
 		
-		final ResponseEntity<String> responseEntity = restTemplate.exchange(url, method,
-				new HttpEntity<>(body, headers), String.class, teseuRequestContext);
-		
 		final Map<String, String> tesseuResponseContext = Collections.synchronizedMap(new HashMap<>());
 		
-		toMap(teseuRequestContext.get(FILENAME_KEY) + "." + RESPONSE_BODY, new ObjectMapper().readTree(responseEntity.getBody()), tesseuResponseContext);
-		
-		tesseuResponseContext.put(teseuRequestContext.get(FILENAME_KEY) + "." + RESPONSE_BODY, responseEntity.getBody());
-		
-		final HttpHeaders responseHeaders = responseEntity.getHeaders();
-		
-		final HttpStatus httpStatus = responseEntity.getStatusCode();
-		
+		try {
+			final ResponseEntity<String> responseEntity = restTemplate.exchange(url, method,
+					new HttpEntity<>(body, headers), String.class, teseuRequestContext);
+			
+			processResponse(teseuRequestContext, tesseuResponseContext, responseEntity.getBody(), responseEntity.getHeaders(), responseEntity.getStatusCode());
+			
+		}catch (final HttpStatusCodeException e) {
+			
+			processResponse(teseuRequestContext, tesseuResponseContext, e.getResponseBodyAsString(), e.getResponseHeaders(), e.getStatusCode());
+		}
 
+		return tesseuResponseContext;
+	}
+
+	private void processResponse(final Map<String, String> teseuRequestContext,
+			final Map<String, String> tesseuResponseContext, final String responseBody, final HttpHeaders responseHeaders, final HttpStatus httpStatus)
+			throws JsonProcessingException, JsonMappingException {
+		
+		toMap(teseuRequestContext.get(FILENAME_KEY) + "." + RESPONSE_BODY, new ObjectMapper().readTree(responseBody), tesseuResponseContext);
+		
+		tesseuResponseContext.put(teseuRequestContext.get(FILENAME_KEY) + "." + RESPONSE_BODY, responseBody);
 		tesseuResponseContext.put(teseuRequestContext.get(FILENAME_KEY) + "." + RESPONSE_HEADERS, toResponseHeaders(responseHeaders));
 		tesseuResponseContext.put(teseuRequestContext.get(FILENAME_KEY) + "." + HTTP_STATUS, String.valueOf(httpStatus.value()));
-		
-		return tesseuResponseContext;
 	}
 	
 	private HttpMethod toHttpMethod(final String method) {

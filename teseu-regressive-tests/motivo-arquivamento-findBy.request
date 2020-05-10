@@ -1,0 +1,6 @@
+GET /motivo/arquivamento/findBy?flImovel=$flImovel&flPedido=$flPedido&flArquivar=$flArquivar&flExcluir=$flExcluir&flTurbinar=$flTurbinar&flEmpreendimento=$flEmpreendimento=$flImovel=$flImovel&flPedido=$flPedido&flArquivar=$flArquivar&flExcluir=$flExcluir&flTurbinar=$flTurbinar&flEmpreendimento=$flEmpreendimento
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

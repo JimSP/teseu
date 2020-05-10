@@ -1,0 +1,8 @@
+POST /cliente/create
+accept:application/json
+Content-Type:application/json
+tokenSocial=$tokenSocial
+idSocial=$idSocial
+idToken=$idToken
+
+$ClienteDtoRequest

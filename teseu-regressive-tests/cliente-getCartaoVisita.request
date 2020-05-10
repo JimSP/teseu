@@ -1,0 +1,6 @@
+GET /cliente/getCartaoVisita
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

@@ -1,0 +1,6 @@
+GET /denuncie/tipoDenuncia?alvoDenuncia=$alvoDenuncia=$alvoDenuncia=$alvoDenuncia
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

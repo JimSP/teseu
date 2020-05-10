@@ -1,0 +1,5 @@
+GET /faq/findIAPerguntaExemploBy?chat=$chat=$chat=$chat
+accept:application/json
+Content-Type:application/json
+
+

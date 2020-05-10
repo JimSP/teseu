@@ -1,0 +1,6 @@
+GET /agente/findAgenteLocalizacao?idCidade=$idCidade&bairros=$bairros&tokenPaginacao=$tokenPaginacao=$idCidade=$idCidade&bairros=$bairros&tokenPaginacao=$tokenPaginacao
+accept:application/json
+Content-Type:application/json
+token=$token
+
+

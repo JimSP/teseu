@@ -1,0 +1,6 @@
+PUT /propostaAgente/cancelarParceria
+accept:application/json
+Content-Type:application/json
+token=$token
+
+$CancelarParceriaAgenteCorretorRequestDto

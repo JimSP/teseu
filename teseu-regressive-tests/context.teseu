@@ -1,2 +1,1 @@
-host=http://152.67.38.191/AlugueAgoraApi/api/
-loginPayload={"userName": "lumena@advogadox.com.br","password": "lumena"}
+host=http://152.67.38.191/AlugueAgoraApi/api
