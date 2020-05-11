@@ -2,6 +2,7 @@ package br.com.cafebinario.teseu.infrastruct.database.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -50,10 +51,10 @@ public class HttpRequest extends Audit {
 	@Column
 	private String body;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="request", orphanRemoval = true)
 	private List<HttpHeaders> headers;
- 
-	@OneToMany
+   
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="request", orphanRemoval = true)
 	private List<HttpParams> params;
  
 	@ManyToOne

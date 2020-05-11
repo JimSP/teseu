@@ -12,7 +12,7 @@ public interface TeseuManagerApiAdapterInterface {
 	Page<HttpRequest> getAll(Pageable pageable);
  	
 	HttpRequest getById(Long id);
-	
+ 
 	void delete(Long id);
 	
 }

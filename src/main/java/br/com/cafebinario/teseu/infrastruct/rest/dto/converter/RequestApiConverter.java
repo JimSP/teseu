@@ -18,7 +18,9 @@ public class RequestApiConverter {
 	public RequestApi convert(HttpRequest httpRequest) {
 
 		return RequestApi.builder()
+				.id(httpRequest.getId())
 				.name(httpRequest.getName())
+				.httpMethod(httpRequest.getMethod().name())
 				.host(httpRequest.getHost())
 				.path(httpRequest.getPath())
 				.body(httpRequest.getBody())

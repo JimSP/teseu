@@ -6,8 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.cafebinario.teseu.exception.ContextVariableNotFoundException;
+import br.com.cafebinario.teseu.exception.TeseuManagerApiNotFoundException;
 import br.com.cafebinario.teseu.infrastruct.adapter.TeseuManagerApiAdapterInterface;
+import br.com.cafebinario.teseu.infrastruct.database.entities.HttpParams;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpRequest;
 import br.com.cafebinario.teseu.infrastruct.database.repositories.HttpRequestRepository;
   
@@ -19,7 +20,12 @@ public class TeseuManagerApiAdapterImpl implements TeseuManagerApiAdapterInterfa
 	
 	@Override
 	@Transactional
-	public HttpRequest save(HttpRequest httpRequest) {		 
+	public HttpRequest save(HttpRequest httpRequest) {	
+		
+		httpRequest.getParams().forEach(param -> param.setRequest(httpRequest));
+		
+		httpRequest.getHeaders().forEach(header -> header.setRequest(httpRequest));
+		 
 		return httpRequestRepository.save(httpRequest);
 	}
 
@@ -31,12 +37,12 @@ public class TeseuManagerApiAdapterImpl implements TeseuManagerApiAdapterInterfa
 	@Override
 	public HttpRequest getById(Long id) {
 		return httpRequestRepository.findById(id)
-					.orElseThrow(()->new ContextVariableNotFoundException(id));
+					.orElseThrow(()->new TeseuManagerApiNotFoundException(id));
 	}
 	
 	@Override
 	public void delete(Long id) {
 		httpRequestRepository.deleteById(id);
 	}
-	
+
 }
