@@ -1,8 +1,5 @@
 package br.com.cafebinario.teseu.infrastruct.rest.dto;
 
-import java.util.List;
-
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -18,14 +15,14 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(callSuper = false, of = { "id" })
 @ToString(callSuper = true)
-public class RegressiveTest {
+public class ExecutionOrder {
 
 	private Long id;
 	
-	@NotBlank
-	private String name;
+	@NotNull
+	private Integer executionOrder;
 	
 	@NotNull
-	private List<ExecutionOrder> sequenceOfApis;
+	private Long idRequestApi;
 	
 }

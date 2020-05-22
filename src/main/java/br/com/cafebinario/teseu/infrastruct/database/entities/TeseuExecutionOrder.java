@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,13 +33,19 @@ public class TeseuExecutionOrder extends Audit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
-	
-	@Column(nullable = false)
-	private String testName;
-	
-	@Column(nullable = false)
-	private String apiName;
-	
+	 
 	@Column(nullable = false)
 	private Integer executionOrder;
+
+	@Column(nullable = false)
+	private HttpRequest httpRequest;
+	
+	@ManyToOne
+	private TeseuRegressiveTest regressiveTest;
+	
+	public TeseuExecutionOrder(Integer executionOrder, HttpRequest httpRequest) {
+		this.executionOrder = executionOrder;
+		this.httpRequest = httpRequest;
+	}
+	
 }

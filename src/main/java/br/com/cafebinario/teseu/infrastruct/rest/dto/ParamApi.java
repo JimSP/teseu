@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 public class ParamApi {
 
 	private Long id;
-	private String key;
+	private String name;
 	private String value;
 	
 }

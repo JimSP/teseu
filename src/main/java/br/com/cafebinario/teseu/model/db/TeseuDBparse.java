@@ -44,7 +44,7 @@ public class TeseuDBparse implements TeseuParse<String> {
 	
 	@Autowired
 	private TeseuExecutionOrderRepository teseuExecutionOrderRepository;
-	
+
 	@Autowired
 	private TeseuBinder teseuBinder;
 	
@@ -72,10 +72,10 @@ public class TeseuDBparse implements TeseuParse<String> {
 		return StreamSupport.stream(teseuExecutionOrderRepository
 				.findAll(Example.of(
 						TeseuExecutionOrder
-							.builder()
-							.testName(name)
+							.builder() 
 							.build()), Sort.by(TeseuExecutionOrder.orderBy())).spliterator(), false)
-				.map(TeseuExecutionOrder::getApiName)
+				.map(TeseuExecutionOrder::getHttpRequest)
+				.map(HttpRequest::getName)
 				.collect(Collectors.toList());
 	}
 
