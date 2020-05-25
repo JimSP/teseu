@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import br.com.cafebinario.teseu.api.ContextVariableApi;
 import br.com.cafebinario.teseu.infrastruct.adapter.ContextVariableAdapterInterface;
 import br.com.cafebinario.teseu.infrastruct.rest.dto.ContextVariable; 
 
+@CrossOrigin
 @RestController
 @RequestMapping("/context")
 @Profile("web") 
@@ -65,6 +67,7 @@ public class ContextVariableRestAPI implements ContextVariableApi {
 	@PutMapping
 	@ResponseStatus(code = HttpStatus.OK)
 	public @ResponseBody void update(@Valid @RequestBody final ContextVariable contextVariable) {
+		contextVariable.setName("Default");
 		contextVariableAdapterInterface.save(contextVariable);
 	}
 

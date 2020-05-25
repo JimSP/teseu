@@ -32,7 +32,7 @@ public class TeseuContext extends Audit {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)  //, unique = true)  perguntar pra alexandre se é unique
 	private String name;
 	
 	@Column

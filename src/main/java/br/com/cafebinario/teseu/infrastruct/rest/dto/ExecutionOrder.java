@@ -25,4 +25,12 @@ public class ExecutionOrder {
 	@NotNull
 	private Long idRequestApi;
 	
+	private String name;
+	 
+	private String httpMethod;
+	
+ 	private String host;
+ 
+ 	private String path;
+	
 }

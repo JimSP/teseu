@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.cafebinario.teseu.exception.TeseuManagerApiNotFoundException;
 import br.com.cafebinario.teseu.infrastruct.adapter.TeseuManagerApiAdapterInterface;
-import br.com.cafebinario.teseu.infrastruct.database.entities.HttpParams;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpRequest;
 import br.com.cafebinario.teseu.infrastruct.database.repositories.HttpRequestRepository;
   

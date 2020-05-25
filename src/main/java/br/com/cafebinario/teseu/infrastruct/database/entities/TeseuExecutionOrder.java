@@ -37,7 +37,7 @@ public class TeseuExecutionOrder extends Audit {
 	@Column(nullable = false)
 	private Integer executionOrder;
 
-	@Column(nullable = false)
+	@ManyToOne
 	private HttpRequest httpRequest;
 	
 	@ManyToOne

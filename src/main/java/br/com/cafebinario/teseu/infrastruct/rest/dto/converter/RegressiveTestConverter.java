@@ -26,7 +26,13 @@ public class RegressiveTestConverter {
 		 
 		return teseuExecutionsOrders
 				.stream()
-				.map(exc ->  new ExecutionOrder(exc.getId(), exc.getExecutionOrder(), exc.getHttpRequest().getId()))
+				.map(exc ->  new ExecutionOrder(exc.getId(), 
+												exc.getExecutionOrder(), 
+												exc.getHttpRequest().getId(),
+												exc.getHttpRequest().getName(), 
+												exc.getHttpRequest().getMethod().name(), 
+												exc.getHttpRequest().getHost(), 
+												exc.getHttpRequest().getPath()))
 				.collect(Collectors.toList());			
 		
 	}
