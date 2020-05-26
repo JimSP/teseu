@@ -1,55 +1,61 @@
 package br.com.cafebinario.teseu.model;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import br.com.cafebinario.teseu.api.ExecutionStatus;
+import br.com.cafebinario.teseu.api.TeseuExpectedProcessor;
 import br.com.cafebinario.teseu.api.TeseuInvoker;
+import br.com.cafebinario.teseu.api.TeseuNotification;
 import br.com.cafebinario.teseu.api.TeseuParse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Builder
 @AllArgsConstructor
-public final class TeseuManager {
+public final class TeseuManager<T> {
 
 	private final Map<String, String> tesseuRequestContext = Collections.synchronizedMap(new HashMap<>());
 
-	private final String name;
-	private final String ordersName;
-	private final TeseuRunMode teseuRunMode;
+	private final T name;
+	private final T ordersName;
 	private final TeseuInvoker teseuInvoker;
-	private final TeseuParse<Path> teseuFileParse;
-	private final TeseuParse<String> teseuDBparse;
-	private final TeseuExpressionExpectedProcessor tesuExpectedProcessor;
+	private final TeseuParse<T> teseuparse;
+	private final Optional<TeseuExpectedProcessor> teseuExpectedProcessor;
+	private final List<TeseuNotification> teseuNotifications;
+	
+	public Boolean addTeseuNotification(final TeseuNotification teseuNotification) {
+		
+		if(teseuNotifications != null) {
+			return teseuNotifications.add(teseuNotification);
+		}
+		
+		return false;
+	}
 	
 	public ExecutionStatus execute() {
 
 		try {
 			
-			if(teseuRunMode == TeseuRunMode.File) {
-				execute(teseuFileParse, Paths.get(name), Paths.get(ordersName), teseuInvoker);
-			}else {
-				execute(teseuDBparse, name, ordersName, teseuInvoker);
-			}
+			execute(teseuparse, name, ordersName, teseuInvoker);
 			
 			return ExecutionStatus.Success;
 			
 		}catch (Exception e) {
 			
-			log.error("m=execute, ordersName={}, teseuRunMode={}", ordersName, teseuRunMode, e);
+			log.error("m=execute, ordersName={}", ordersName, e);
 			
 			return ExecutionStatus.Error;
 		}
 	}
 	
-	private <T> void execute(final TeseuParse<T> teseuParse, final T name, final T ordersFileName, final TeseuInvoker teseuInvoker, final String... args) throws Exception {
+	private void execute(final TeseuParse<T> teseuParse, final T name, final T ordersFileName, final TeseuInvoker teseuInvoker) throws Exception {
 		
 		if(!tesseuRequestContext.isEmpty()) {
 			throw new RuntimeException("there cannot be 2 (two) Theseus!");
@@ -63,7 +69,7 @@ public final class TeseuManager {
 			
 			try {
 				
-				final Map<String, String> tesseuResponseContext = teseuInvoker.execute(tesseuRequestContext, args);
+				final Map<String, String> tesseuResponseContext = teseuInvoker.execute(tesseuRequestContext);
 				tesseuRequestContext.putAll(tesseuResponseContext);
 				
 				teseuParse.write(name, tesseuRequestContext);
@@ -72,21 +78,32 @@ public final class TeseuManager {
 				
 				for (final String expression : expressions) {
 					
-					final Boolean expressionResult = tesuExpectedProcessor.parseExpression(expression, tesseuRequestContext);
-					
-					if(!expressionResult) {
-						throw Minotaur.of(requestName + ".request contains error in expression" + expression);
-					}
+					teseuExpectedProcessor
+						.ifPresent(consumer->{
+							parseExpression(requestName, expression, consumer);
+						});
 				}
 
 			}catch (final Throwable t) {
 				
 				teseuParse.write(name, tesseuRequestContext, requestName, t);
 				
-				throw Minotaur.of("Theseus was lost in the maze on the way [" + name + "/" + requestName + "!]", t);
+				teseuNotifications.forEach(teseuNotification->teseuNotification.sendReport(name + "." + requestName, t));
+				
+				throw Minotaur.of("Theseus was lost in the maze on the way [" + name + "." + requestName + "!]", t);
 			}
 		}
 		
 		tesseuRequestContext.clear();
+	}
+
+	@SneakyThrows
+	private void parseExpression(final T requestName, final String expression, final TeseuExpectedProcessor teseuExpectedProcessor) {
+		final ExpectedResult expectedResult = teseuExpectedProcessor.parseExpression(expression, tesseuRequestContext);
+		
+		if(!expectedResult.getSucess()) {
+			throw Minotaur.of(String.format("%s.request contains error in expression %s, actual=%s, expected=%s",
+					requestName, expression, expectedResult.getActual(), expectedResult.getExpected()));
+		}
 	}
 }

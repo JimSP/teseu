@@ -1,0 +1,67 @@
+POST /pedido/create
+accept:application/json
+Content-Type:application/json
+
+{ 
+
+   "areaMaxima":80,
+
+   "areaMinima":100,
+
+   "descricao":"testando.",
+
+   "flagFifty":"N",
+
+   "horaContato":"",
+
+   "qtdBanheiro":2,
+
+   "qtdQuartos":2,
+
+   "qtdSuites":2,
+
+   "qtdVagas":2,
+
+   "valorMax":350000,
+
+   "valorMin":199000,
+
+   "flContatoTel":"S",
+
+   "flContatoEmail":"S",
+
+   "flContatoWhats":"S",
+
+   "codigoCliente":516,
+
+   "codigoStatusObra":0,
+
+   "bairros":[ 
+
+      [ 
+
+      ]
+
+   ],
+
+   "cidades":[ 
+
+      1
+
+   ],
+
+   "tipoImoveis":[ 
+
+      1
+
+   ],
+
+   "imoveis":[ 
+
+      0
+
+   ],
+
+   "idTipoAnuncio":1
+
+}

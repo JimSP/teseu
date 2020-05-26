@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import br.com.cafebinario.teseu.infrastruct.database.jpa.entities.Audit;
+import br.com.cafebinario.teseu.infrastruct.database.jpa.entities.HttpRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

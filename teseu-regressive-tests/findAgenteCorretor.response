@@ -1,0 +1,2 @@
+path:findAgenteCorretor.request
+error:Minotaur(super=br.com.cafebinario.teseu.model.Minotaur: findAgenteCorretor.request.request contains error in expression 9600=$agentes.responseBody.idCliente, actual=null, expected=9600)

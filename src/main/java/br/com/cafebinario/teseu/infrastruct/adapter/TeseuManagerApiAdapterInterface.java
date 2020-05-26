@@ -3,7 +3,7 @@ package br.com.cafebinario.teseu.infrastruct.adapter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import br.com.cafebinario.teseu.infrastruct.database.entities.HttpRequest;
+import br.com.cafebinario.teseu.infrastruct.database.jpa.entities.HttpRequest;
 
 public interface TeseuManagerApiAdapterInterface {
 

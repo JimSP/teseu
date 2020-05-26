@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import br.com.cafebinario.teseu.infrastruct.database.entities.HttpHeaders;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpParams;
-import br.com.cafebinario.teseu.infrastruct.database.entities.HttpRequest;
+import br.com.cafebinario.teseu.infrastruct.database.jpa.entities.HttpHeaders;
+import br.com.cafebinario.teseu.infrastruct.database.jpa.entities.HttpRequest;
 import br.com.cafebinario.teseu.infrastruct.rest.dto.HeaderApi;
 import br.com.cafebinario.teseu.infrastruct.rest.dto.ParamApi;
 import br.com.cafebinario.teseu.infrastruct.rest.dto.RequestApi;

@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import br.com.cafebinario.teseu.infrastruct.database.entities.TeseuContext;
-import br.com.cafebinario.teseu.infrastruct.database.repositories.ClientRepository;
+import br.com.cafebinario.teseu.infrastruct.database.jpa.entities.TeseuContext;
+import br.com.cafebinario.teseu.infrastruct.database.jpa.repositories.ClientRepository;
 import br.com.cafebinario.teseu.model.Minotaur;
 import lombok.SneakyThrows;
 

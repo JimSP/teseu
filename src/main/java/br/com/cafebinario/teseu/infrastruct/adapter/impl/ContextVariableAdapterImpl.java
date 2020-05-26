@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.cafebinario.teseu.exception.ContextVariableNotFoundException;
 import br.com.cafebinario.teseu.infrastruct.adapter.ContextVariableAdapterInterface;
-import br.com.cafebinario.teseu.infrastruct.database.entities.TeseuContext;
-import br.com.cafebinario.teseu.infrastruct.database.repositories.TeseuContextRepository;
+import br.com.cafebinario.teseu.infrastruct.database.jpa.entities.TeseuContext;
+import br.com.cafebinario.teseu.infrastruct.database.jpa.repositories.TeseuContextRepository;
 import br.com.cafebinario.teseu.infrastruct.rest.dto.ContextVariable;
   
 @Service

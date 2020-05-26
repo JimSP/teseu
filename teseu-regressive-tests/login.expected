@@ -1,1 +1,2 @@
 200=$login.httpStatus
+1=$login.responseBody.idTipoCliente

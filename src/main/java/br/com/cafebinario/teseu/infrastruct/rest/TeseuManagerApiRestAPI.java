@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cafebinario.teseu.api.TeseuManagerApi;
 import br.com.cafebinario.teseu.infrastruct.adapter.TeseuManagerApiAdapterInterface;
-import br.com.cafebinario.teseu.infrastruct.database.entities.HttpRequest;
 import br.com.cafebinario.teseu.infrastruct.database.entities.converter.HttpRequestConverter;
+import br.com.cafebinario.teseu.infrastruct.database.jpa.entities.HttpRequest;
 import br.com.cafebinario.teseu.infrastruct.rest.dto.RequestApi;
 import br.com.cafebinario.teseu.infrastruct.rest.dto.converter.RequestApiConverter;
 

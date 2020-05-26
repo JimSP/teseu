@@ -1,0 +1,5 @@
+GET /agente/findAgenteLocalizacao
+accept:application/json
+Content-Type:application/json
+token:$token
+idCidade:$idCidade

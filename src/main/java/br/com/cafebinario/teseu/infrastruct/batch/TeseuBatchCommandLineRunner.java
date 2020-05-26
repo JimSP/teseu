@@ -1,6 +1,10 @@
 package br.com.cafebinario.teseu.infrastruct.batch;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,11 +18,13 @@ import br.com.cafebinario.logger.LogLevel;
 import br.com.cafebinario.logger.VerboseMode;
 import br.com.cafebinario.teseu.api.ExecutionStatus;
 import br.com.cafebinario.teseu.api.TeseuInvoker;
+import br.com.cafebinario.teseu.api.TeseuNotification;
 import br.com.cafebinario.teseu.api.TeseuParse;
 import br.com.cafebinario.teseu.api.TeseuRegressiceTestAPI;
-import br.com.cafebinario.teseu.model.TeseuExpressionExpectedProcessor;
+import br.com.cafebinario.teseu.infrastruct.notification.TeseuNotificationMode;
 import br.com.cafebinario.teseu.model.TeseuManager;
 import br.com.cafebinario.teseu.model.TeseuRunMode;
+import br.com.cafebinario.teseu.model.TeseuSpelExpectedProcessor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +42,9 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegr
 	@Value("${br.com.cafebinario.teseu.context.name:teseu-regressive-tests}")
 	private String name;
 	
+	@Value("${br.com.cafebinario.teseu.run-mode:File}")
+	private String teseuRunMode;
+	
 	@Autowired
 	@Qualifier("teseuFileParse")
 	private TeseuParse<Path> teseuFileParse;
@@ -44,11 +53,14 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegr
 	@Qualifier("teseuDBparse")
 	private TeseuParse<String> teseuDBparse;
 	
-	@Autowired
-	private TeseuExpressionExpectedProcessor tesuExpectedProcessor;
+	@Value("${br.com.cafebinario.teseu.notification-mode:None}")
+	private List<TeseuNotificationMode> teseuNotificationModes;
 	
-	@Value("${br.com.cafebinario.teseu.run-mode:File}")
-	private String teseuRunMode;
+	@Autowired
+	private List<TeseuNotification> teseuNotifications;
+	
+	@Autowired
+	private TeseuSpelExpectedProcessor teseuSpelExpectedProcessor;
 	
 	@Override
 	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
@@ -63,17 +75,43 @@ public class TeseuBatchCommandLineRunner implements CommandLineRunner, TeseuRegr
 		
 		try {
 			
-			return TeseuManager
-					.builder()
-					.name(name)
-					.ordersName(ordersName)
-					.teseuDBparse(teseuDBparse)
-					.teseuFileParse(teseuFileParse)
-					.teseuInvoker(teseuInvoker)
-					.teseuRunMode(TeseuRunMode.valueOf(teseuRunMode))
-					.tesuExpectedProcessor(tesuExpectedProcessor)
-					.build()
-					.execute();
+			if(TeseuRunMode.valueOf(teseuRunMode) == TeseuRunMode.File) {
+				return TeseuManager
+						.<Path>builder()
+						.name(Paths.get(name))
+						.ordersName(Paths.get(ordersName))
+						.teseuparse(teseuFileParse)
+						.teseuInvoker(teseuInvoker)
+						.teseuExpectedProcessor(Optional.of(teseuSpelExpectedProcessor))
+						.teseuNotifications(teseuNotifications
+												.stream()
+												.filter(teseuNotification->teseuNotificationModes
+																				.stream()
+																				.anyMatch(mode->teseuNotification
+																									.getClass()
+																									.isAssignableFrom(mode.getNotyficationType())))
+												.collect(Collectors.toList()))
+						.build()
+						.execute();
+			}else {
+				return TeseuManager
+						.<String>builder()
+						.name(name)
+						.ordersName(ordersName)
+						.teseuparse(teseuDBparse)
+						.teseuInvoker(teseuInvoker)
+						.teseuExpectedProcessor(Optional.of(teseuSpelExpectedProcessor))
+						.teseuNotifications(teseuNotifications
+												.stream()
+												.filter(teseuNotification->teseuNotificationModes
+																				.stream()
+																				.anyMatch(mode->teseuNotification
+																									.getClass()
+																									.isAssignableFrom(mode.getNotyficationType())))
+												.collect(Collectors.toList()))
+						.build()
+						.execute();
+			}
 			
 		}catch (Exception e) {
 			
