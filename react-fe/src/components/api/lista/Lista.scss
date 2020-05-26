@@ -1,0 +1,34 @@
+div.p-datatable.dt-consulta-api {
+    margin: 20px;
+}
+
+fieldset { 
+    border: 1px solid #c8c8c8;
+}
+
+legend {
+    width: auto;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    font-weight: bold;
+    font-size: larger;
+}    
+ 
+.botaoNew {
+    float: right;
+    margin-top: -50px;
+    margin-right: 40px;
+}
+
+.labelFiltro {
+    padding: 25px;
+}
+
+#filtroNome {
+    width: 250px;
+}
+
+#filtroEndereco {
+    width: 250px;
+    margin-left: 20px;
+}

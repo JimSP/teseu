@@ -1,0 +1,100 @@
+.container {
+    display: flex;
+    padding: 15px;
+ 
+}
+
+.container-form {
+    padding: 20px;
+}
+
+label.p-checkbox-label {
+    padding: 15px;
+}
+
+div.tituloAssoc {
+    height: 1px;
+    background-color: #333;
+    text-align: center;
+  }
+
+div.tituloAssoc span {
+    background-color: white;
+    position: relative;
+    top: -0.5em;
+    padding: 0 10px;
+  }
+
+.tituloAssocReproc {
+  width: 230px;
+}  
+
+.opcoes-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  text-align: center; 
+  min-height: 50px;
+  margin-left: 0;
+  background-color: rgba(33, 33, 33, .05);
+  align-items: center;
+}
+
+label span {
+  margin-right: 25px;
+  margin-left: -25px;
+}
+
+.divisor {
+  border-bottom: 1px solid #d5d5d5;
+}
+
+.botao-crud {
+  width: 160px;
+}
+
+body .p-button.p-button-icon-only {
+  width: 2.357em; 
+  margin-top: 2.2em;
+}
+
+body .p-button.p-button-icon-only .p-button-text {
+  padding: 0;
+  margin: 0;
+  height: 0.5em;
+}
+
+#inputValueParam { 
+  display: block;
+  width: 350px;
+  margin-left: -26px;
+}
+
+input.p-autocomplete-input {
+  width: 350px;
+}
+
+label.value-param {
+  margin-left: -26px;
+}
+
+button.p-button-icon-only {
+  margin-left: -32px;
+}
+
+.botao-crud {
+  width: 150px; 
+}
+
+
+#inputValueHeader { 
+  display: block;
+  width: 350px;
+  margin-left: -26px;
+}
+
+
+label.value-header {
+  margin-left: -26px;
+}
