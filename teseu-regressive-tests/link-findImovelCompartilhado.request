@@ -1,5 +1,0 @@
-GET /link/findImovelCompartilhado?token=$token=$token=$token
-accept:application/json
-Content-Type:application/json
-
-

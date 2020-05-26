@@ -1,0 +1,5 @@
+GET /agente/findAgenteNomeEmail
+accept:application/json
+Content-Type:application/json
+token:$token
+filtro:$filtro

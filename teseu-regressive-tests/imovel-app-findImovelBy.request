@@ -1,6 +1,0 @@
-POST /imovel/app/findImovelBy
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$ImovelAppRequest

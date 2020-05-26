@@ -1,6 +1,0 @@
-POST /imovel/qrAceitarRecusar?idImovel=$idImovel&aceitarQr=$aceitarQr=$idImovel=$idImovel&aceitarQr=$aceitarQr
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

@@ -1,6 +1,0 @@
-GET /proposta/pedido/findBy?idPedido=$idPedido=$idPedido=$idPedido
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

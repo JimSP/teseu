@@ -1,6 +1,0 @@
-POST /imovel/midiaCreate
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$MidiaCreateRequest

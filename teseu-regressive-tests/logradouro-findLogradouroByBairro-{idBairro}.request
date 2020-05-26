@@ -1,6 +1,0 @@
-GET /logradouro/findLogradouroByBairro/$idBairro
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

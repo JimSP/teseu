@@ -1,6 +1,0 @@
-POST /pedido/mensagemPedido?emailContato=$emailContato&flagNoticia=$flagNoticia&flagWhats=$flagWhats&mensagem=$mensagem&nomeContato=$nomeContato&telContato=$telContato&idCliente=$idCliente&idPedido=$idPedido=$emailContato=$emailContato&flagNoticia=$flagNoticia&flagWhats=$flagWhats&mensagem=$mensagem&nomeContato=$nomeContato&telContato=$telContato&idCliente=$idCliente&idPedido=$idPedido
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

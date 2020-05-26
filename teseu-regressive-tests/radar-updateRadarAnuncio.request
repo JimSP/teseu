@@ -1,6 +1,0 @@
-PUT /radar/updateRadarAnuncio
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$RadarRequest

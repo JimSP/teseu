@@ -1,6 +1,0 @@
-POST /assinaturaPlano/createPagamentoRecorrente/cartaoCredito
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$AssinaturaPlanoCartaoCreditoRequest

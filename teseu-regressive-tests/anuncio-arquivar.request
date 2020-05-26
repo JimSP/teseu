@@ -1,6 +1,0 @@
-PUT /anuncio/arquivar
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$ArquivarAnuncioRequest

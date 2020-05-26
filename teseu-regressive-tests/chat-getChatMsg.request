@@ -1,6 +1,0 @@
-GET /chat/getChatMsg?idChatAgenteCorretor=$idChatAgenteCorretor&idClienteDestino=$idClienteDestino=$idChatAgenteCorretor=$idChatAgenteCorretor&idClienteDestino=$idClienteDestino
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

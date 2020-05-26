@@ -1,6 +1,0 @@
-GET /motivoRecusa/motivoRecusaPedido?idStatusPedido=$idStatusPedido=$idStatusPedido=$idStatusPedido
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

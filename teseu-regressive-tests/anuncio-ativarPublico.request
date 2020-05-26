@@ -1,6 +1,0 @@
-POST /anuncio/ativarPublico?idImovel=$idImovel&publicoOnOff=$publicoOnOff=$idImovel=$idImovel&publicoOnOff=$publicoOnOff
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

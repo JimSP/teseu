@@ -1,6 +1,0 @@
-POST /suporteMensagem/create
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$SuporteMensagemRequest

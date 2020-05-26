@@ -1,5 +1,0 @@
-POST /util/registrarChat?idCorretor=$idCorretor&idAgente=$idAgente=$idCorretor=$idCorretor&idAgente=$idAgente
-accept:application/json
-Content-Type:application/json
-
-

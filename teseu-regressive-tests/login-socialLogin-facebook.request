@@ -1,7 +1,0 @@
-POST /login/socialLogin/facebook
-accept:application/json
-Content-Type:application/json
-tokenSocial=$tokenSocial
-userName=$userName
-
-

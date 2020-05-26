@@ -1,6 +1,0 @@
-PUT /notificacao/confirmarLeitura?idNotificacao=$idNotificacao=$idNotificacao=$idNotificacao
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

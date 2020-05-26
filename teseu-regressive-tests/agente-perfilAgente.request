@@ -1,6 +1,0 @@
-GET /agente/perfilAgente?idAgente=$idAgente=$idAgente=$idAgente
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

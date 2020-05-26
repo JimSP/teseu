@@ -1,6 +1,0 @@
-GET /imovel/exibirContatoQrCode?idImovel=$idImovel=$idImovel=$idImovel
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

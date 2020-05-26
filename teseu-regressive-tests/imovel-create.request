@@ -1,6 +1,0 @@
-POST /imovel/create
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$ImovelRequest

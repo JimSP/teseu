@@ -1,6 +1,0 @@
-GET /buscaPopular/buscaLink?idCidade=$idCidade=$idCidade=$idCidade
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

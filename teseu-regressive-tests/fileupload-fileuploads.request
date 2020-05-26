@@ -1,5 +1,0 @@
-POST /fileupload/fileuploads
-accept:application/json
-Content-Type:application/json
-
-

@@ -1,6 +1,0 @@
-GET /politicaPrivacidade?idTipoCliente=$idTipoCliente=$idTipoCliente=$idTipoCliente
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

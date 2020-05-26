@@ -1,6 +1,0 @@
-GET /anuncio/turbinar/findPropostas?idTurbinar=$idTurbinar&idImovel=$idImovel=$idTurbinar=$idTurbinar&idImovel=$idImovel
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

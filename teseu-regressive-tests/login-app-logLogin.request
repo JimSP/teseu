@@ -1,6 +1,0 @@
-POST /login/app/logLogin
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$LogLoginAppRequest

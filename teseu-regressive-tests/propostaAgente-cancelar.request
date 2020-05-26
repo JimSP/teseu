@@ -1,6 +1,0 @@
-PUT /propostaAgente/cancelar?idPropostaAgente=$idPropostaAgente=$idPropostaAgente=$idPropostaAgente
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

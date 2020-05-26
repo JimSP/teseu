@@ -1,5 +1,0 @@
-GET /util/validaCorretorAtivo?idCliente=$idCliente=$idCliente=$idCliente
-accept:application/json
-Content-Type:application/json
-
-

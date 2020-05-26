@@ -1,6 +1,0 @@
-POST /pedido/create
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$PedidoRequest

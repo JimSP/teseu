@@ -1,6 +1,0 @@
-GET /imovel/validaImovelEndereco?idTipoImovel=$idTipoImovel&idTipoAnuncio=$idTipoAnuncio&idCidade=$idCidade&idBairro=$idBairro=$idTipoImovel=$idTipoImovel&idTipoAnuncio=$idTipoAnuncio&idCidade=$idCidade&idBairro=$idBairro
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

@@ -1,5 +1,0 @@
-POST /cliente/validaTokenUsuarioCliente?token=$token=$token=$token
-accept:application/json
-Content-Type:application/json
-
-

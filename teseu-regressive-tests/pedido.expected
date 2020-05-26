@@ -1,0 +1,4 @@
+200=$pedido.httpStatus
+São Paulo=$pedido.responseBody.cidades[0].nomeCidade
+1=$pedido.responseBody.tipoImoveis[0].id
+Apartamento=$pedido.responseBody.tipoImoveis[0].nomeTipo

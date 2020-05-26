@@ -1,6 +1,0 @@
-GET /conversaoMedida/findBy
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

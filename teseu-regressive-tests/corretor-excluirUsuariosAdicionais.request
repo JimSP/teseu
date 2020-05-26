@@ -1,6 +1,0 @@
-PUT /corretor/excluirUsuariosAdicionais?idCliente=$idCliente&idUsuarioCliente=$idUsuarioCliente=$idCliente=$idCliente&idUsuarioCliente=$idUsuarioCliente
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

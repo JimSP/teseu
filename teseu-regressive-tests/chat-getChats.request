@@ -1,6 +1,0 @@
-GET /chat/getChats
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

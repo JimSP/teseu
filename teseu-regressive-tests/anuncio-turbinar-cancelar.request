@@ -1,7 +1,0 @@
-PUT /anuncio/turbinar/cancelar?idImovel=$idImovel&idCliente=$idCliente&idStatus=$idStatus=$idImovel=$idImovel&idCliente=$idCliente&idStatus=$idStatus
-accept:application/json
-Content-Type:application/json
-token=$token
-key=$key
-
-

@@ -1,6 +1,0 @@
-PUT /listaAnuncioFavorito/update
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$ListaAnuncioFavoritoUpdateDto

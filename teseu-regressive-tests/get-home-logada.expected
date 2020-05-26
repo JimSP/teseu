@@ -1,0 +1,5 @@
+200=$get-home-logada.httpStatus
+A=$get-home-logada.responseBody.clienteAtivo
+S=$get-home-logada.responseBody.emailValidado
+19=$get-home-logada.responseBody.qtdAnunciosAtivos
+0=$get-home-logada.responseBody.qtdChatsNaoLidos

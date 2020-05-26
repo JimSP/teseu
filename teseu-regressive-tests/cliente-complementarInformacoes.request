@@ -1,6 +1,0 @@
-PUT /cliente/complementarInformacoes?idCliente=$idCliente&cpfCliente=$cpfCliente&dtNascimento=$dtNascimento&idImovel=$idImovel&cep=$cep&nomeBairro=$nomeBairro&nomeRua=$nomeRua&numero=$numero&complemento=$complemento=$idCliente=$idCliente&cpfCliente=$cpfCliente&dtNascimento=$dtNascimento&idImovel=$idImovel&cep=$cep&nomeBairro=$nomeBairro&nomeRua=$nomeRua&numero=$numero&complemento=$complemento
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

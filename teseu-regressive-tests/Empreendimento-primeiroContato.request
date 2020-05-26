@@ -1,6 +1,0 @@
-GET /Empreendimento/primeiroContato?nome=$nome&idCliente=$idCliente&email=$email&telefone=$telefone&mensagem=$mensagem&flagWhats=$flagWhats&flNoticias=$flNoticias=$nome=$nome&idCliente=$idCliente&email=$email&telefone=$telefone&mensagem=$mensagem&flagWhats=$flagWhats&flNoticias=$flNoticias
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

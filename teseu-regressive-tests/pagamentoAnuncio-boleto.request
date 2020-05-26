@@ -1,6 +1,0 @@
-POST /pagamentoAnuncio/boleto
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$CreatePagamentoBoletoRequest

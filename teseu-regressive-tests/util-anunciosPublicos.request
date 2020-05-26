@@ -1,5 +1,0 @@
-GET /util/anunciosPublicos?idAgente=$idAgente=$idAgente=$idAgente
-accept:application/json
-Content-Type:application/json
-
-

@@ -1,6 +1,0 @@
-GET /faq/findIdFaq?idFaq=$idFaq=$idFaq=$idFaq
-accept:application/json
-Content-Type:application/json
-urlToken=$urlToken
-
-

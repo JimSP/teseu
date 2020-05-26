@@ -1,6 +1,0 @@
-POST /denuncie/mensagem
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$DenuncieRequestDto

@@ -1,5 +1,0 @@
-POST /cliente/testeEmail
-accept:application/json
-Content-Type:application/json
-
-$EmailDto

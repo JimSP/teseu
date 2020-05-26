@@ -1,5 +1,0 @@
-GET /util/gerarQrCode?qrLink=$qrLink&tipoImpressao=$tipoImpressao=$qrLink=$qrLink&tipoImpressao=$tipoImpressao
-accept:application/json
-Content-Type:application/json
-
-

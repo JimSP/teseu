@@ -1,0 +1,10 @@
+200=$anuncio.httpStatus
+9728=$agentes.responseBody.idCliente
+São Paulo=$agentes.responseBody.nomeCidade
+AGENTE JIRA=$agentes.responseBody.nomeCliente
+0=$agentes.responseBody.qtdAnunciosAtivos
+5=$agentes.responseBody.qtdAnunciosPublicoAgente
+0=$agentes.responseBody.cliente.qtdAnunciosPublicoAgenteAtivo
+4=$agentes.responseBody.cliente.qtdPaginas
+0=$agentes.responseBody.cliente.qtdPedido
+SP=$agentes.responseBody.cliente.ufEstado

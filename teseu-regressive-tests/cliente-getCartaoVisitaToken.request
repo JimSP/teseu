@@ -1,5 +1,0 @@
-GET /cliente/getCartaoVisitaToken?token=$token=$token=$token
-accept:application/json
-Content-Type:application/json
-
-

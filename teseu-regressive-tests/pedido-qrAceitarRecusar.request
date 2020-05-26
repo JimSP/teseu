@@ -1,6 +1,0 @@
-POST /pedido/qrAceitarRecusar?idPedido=$idPedido&aceitarQr=$aceitarQr=$idPedido=$idPedido&aceitarQr=$aceitarQr
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

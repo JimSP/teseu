@@ -1,6 +1,0 @@
-PUT /corretor/registrarAvaliacao?idImovel=$idImovel&idCliente=$idCliente&avaliacao=$avaliacao&observacao=$observacao=$idImovel=$idImovel&idCliente=$idCliente&avaliacao=$avaliacao&observacao=$observacao
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

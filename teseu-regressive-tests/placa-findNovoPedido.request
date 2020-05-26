@@ -1,6 +1,0 @@
-GET /placa/findNovoPedido
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

@@ -1,5 +1,0 @@
-GET /match/imovel/$id
-accept:application/json
-Content-Type:application/json
-
-

@@ -1,5 +1,0 @@
-POST /AnuncioFavorito/addFavorito?idCliente=$idCliente&idImovel=$idImovel&idUsuarioCliente=$idUsuarioCliente&idListaAnuncioFavorito=$idListaAnuncioFavorito&favorito=$favorito=$idCliente=$idCliente&idImovel=$idImovel&idUsuarioCliente=$idUsuarioCliente&idListaAnuncioFavorito=$idListaAnuncioFavorito&favorito=$favorito
-accept:application/json
-Content-Type:application/json
-
-

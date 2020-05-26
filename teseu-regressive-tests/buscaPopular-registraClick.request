@@ -1,6 +1,0 @@
-PUT /buscaPopular/registraClick?idBuscaPopular=$idBuscaPopular=$idBuscaPopular=$idBuscaPopular
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

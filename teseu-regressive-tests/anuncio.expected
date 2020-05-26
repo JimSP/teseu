@@ -1,0 +1,6 @@
+200=$anuncio.httpStatus
+516=$anuncio.responseBody.cliente.id
+1=$anuncio.responseBody.cliente.idTipoCliente
+Raquel Corretora=$anuncio.responseBody.cliente.nome
+Associado=$anuncio.responseBody.cliente.nomeTipoCliente
+0=$anuncio.responseBody.cliente.telPrincipalWhats

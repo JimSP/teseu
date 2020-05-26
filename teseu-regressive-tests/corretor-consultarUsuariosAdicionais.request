@@ -1,6 +1,0 @@
-GET /corretor/consultarUsuariosAdicionais?idCliente=$idCliente=$idCliente=$idCliente
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

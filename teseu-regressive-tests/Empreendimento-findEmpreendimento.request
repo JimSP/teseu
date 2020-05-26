@@ -1,6 +1,0 @@
-GET /Empreendimento/findEmpreendimento?idEmpreendimento=$idEmpreendimento=$idEmpreendimento=$idEmpreendimento
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

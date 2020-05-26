@@ -32,6 +32,7 @@ import br.com.cafebinario.logger.Log;
 import br.com.cafebinario.logger.LogLevel;
 import br.com.cafebinario.logger.VerboseMode;
 import br.com.cafebinario.teseu.api.TeseuParse;
+import br.com.cafebinario.teseu.model.Minotaur;
 import br.com.cafebinario.teseu.model.TeseuBinder;
 import br.com.cafebinario.teseu.model.TeseuConstants;
 import lombok.SneakyThrows;
@@ -59,29 +60,33 @@ class TeseuFileParse implements TeseuParse<Path>{
 		boolean isBody = false;
 		for (final String line : lines) {
 			
-			if(lineNumber == 0) {
-				
-				final String[] keyValue = line.split(REGEX_SPACE);
-				
-				teseuRequestContext.put(METHOD, keyValue[0].trim());
-				teseuRequestContext.put(URI, URI.contains(ITEM_DECLARATION) ? teseuBinder.bind(keyValue[1], teseuRequestContext) : keyValue[1].trim());
-				
-				lineNumber++;
-			}else if(line.equals(EMPTY)){
-				isBody = true;
-			} else if(isBody) {
-				body.append(line + "\r\n");
-			} else {
-				final String[] keyValue = line.split(VAR_SEPARATOR);
-				
-				if(keyValue[1].substring(0, 1).equals("$")) {
-					teseuRequestContext.put(HEADERS + PATH_SEPARATOR + keyValue[0].trim(), teseuBinder.bind(teseuRequestContext.get(keyValue[1].substring(1).trim()), 
-							teseuRequestContext));
-				}else {
-					teseuRequestContext.put(HEADERS + PATH_SEPARATOR + keyValue[0].trim(), teseuBinder.bind(keyValue[1].trim(), 
-							teseuRequestContext));
+			try {
+				if(lineNumber == 0) {
+					
+					final String[] keyValue = line.split(REGEX_SPACE);
+					
+					teseuRequestContext.put(METHOD, keyValue[0].trim());
+					teseuRequestContext.put(URI, URI.contains(ITEM_DECLARATION) ? teseuBinder.bind(keyValue[1], teseuRequestContext) : keyValue[1].trim());
+					
+					lineNumber++;
+				}else if(line.equals(EMPTY)){
+					isBody = true;
+				} else if(isBody) {
+					body.append(line + "\r\n");
+				} else {
+					final String[] keyValue = line.split(VAR_SEPARATOR);
+					
+					if(keyValue[1].substring(0, 1).equals("$")) {
+						teseuRequestContext.put(HEADERS + PATH_SEPARATOR + keyValue[0].trim(), teseuBinder.bind(teseuRequestContext.get(keyValue[1].substring(1).trim()), 
+								teseuRequestContext));
+					}else {
+						teseuRequestContext.put(HEADERS + PATH_SEPARATOR + keyValue[0].trim(), teseuBinder.bind(keyValue[1].trim(), 
+								teseuRequestContext));
+					}
 				}
-			}
+			} catch (Exception e) {
+				throw Minotaur.of(line + " variable has problem, verify your " + inputSource + " configurtation.");
+			}	
 		}
 		
 		teseuRequestContext.put(BODY, teseuBinder.bind(body.toString(), teseuRequestContext));

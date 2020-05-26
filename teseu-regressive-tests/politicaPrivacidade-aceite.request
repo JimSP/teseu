@@ -1,6 +1,0 @@
-POST /politicaPrivacidade/aceite?idCliente=$idCliente&idPoliticaPrivacidade=$idPoliticaPrivacidade=$idCliente=$idCliente&idPoliticaPrivacidade=$idPoliticaPrivacidade
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

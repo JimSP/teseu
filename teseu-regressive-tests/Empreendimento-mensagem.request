@@ -1,6 +1,0 @@
-GET /Empreendimento/mensagem?idCliente=$idCliente&idEmpreendimento=$idEmpreendimento&emailContato=$emailContato&flagNoticia=$flagNoticia&flagWhats=$flagWhats&mensagem=$mensagem&nomeContato=$nomeContato&telContato=$telContato=$idCliente=$idCliente&idEmpreendimento=$idEmpreendimento&emailContato=$emailContato&flagNoticia=$flagNoticia&flagWhats=$flagWhats&mensagem=$mensagem&nomeContato=$nomeContato&telContato=$telContato
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

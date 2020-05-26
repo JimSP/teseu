@@ -1,5 +1,0 @@
-GET /cliente/enderecoCliente?idCliente=$idCliente=$idCliente=$idCliente
-accept:application/json
-Content-Type:application/json
-
-

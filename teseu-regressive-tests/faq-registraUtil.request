@@ -1,6 +1,0 @@
-POST /faq/registraUtil?idCategoria=$idCategoria&util=$util=$idCategoria=$idCategoria&util=$util
-accept:application/json
-Content-Type:application/json
-urlToken=$urlToken
-
-

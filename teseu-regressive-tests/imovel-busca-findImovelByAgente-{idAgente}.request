@@ -1,6 +1,0 @@
-GET /imovel/busca/findImovelByAgente/$idAgente
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

@@ -1,6 +1,0 @@
-GET /radar/findByCliente?idCliente=$idCliente=$idCliente=$idCliente
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

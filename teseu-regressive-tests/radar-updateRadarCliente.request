@@ -1,6 +1,0 @@
-PUT /radar/updateRadarCliente
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$RadarDtoRequest

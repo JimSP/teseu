@@ -1,6 +1,0 @@
-GET /propostaAgente/recusar?idPropostaAgente=$idPropostaAgente&msgRecusa=$msgRecusa=$idPropostaAgente=$idPropostaAgente&msgRecusa=$msgRecusa
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

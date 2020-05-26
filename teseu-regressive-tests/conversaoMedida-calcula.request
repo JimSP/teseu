@@ -1,6 +1,0 @@
-GET /conversaoMedida/calcula?idConversaoMedida=$idConversaoMedida&valor=$valor=$idConversaoMedida=$idConversaoMedida&valor=$valor
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

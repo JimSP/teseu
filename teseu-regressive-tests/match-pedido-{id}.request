@@ -1,5 +1,0 @@
-GET /match/pedido/$id
-accept:application/json
-Content-Type:application/json
-
-

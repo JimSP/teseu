@@ -1,6 +1,0 @@
-POST /assinaturaPlano/createPagamentoRecorrente/boleto
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$AssinaturaPlanoBoletoRequest

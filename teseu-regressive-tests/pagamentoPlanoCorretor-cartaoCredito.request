@@ -1,6 +1,0 @@
-POST /pagamentoPlanoCorretor/cartaoCredito
-accept:application/json
-Content-Type:application/json
-token=$token
-
-$CreatePagamentoCreditoPlanoCorretorRequest

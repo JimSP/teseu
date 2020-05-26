@@ -1,6 +1,0 @@
-GET /AnuncioFavorito/findFavoritoBy?idCliente=$idCliente&idImovel=$idImovel&idListaAnuncioFavorito=$idListaAnuncioFavorito&idUsuarioCliente=$idUsuarioCliente=$idCliente=$idCliente&idImovel=$idImovel&idListaAnuncioFavorito=$idListaAnuncioFavorito&idUsuarioCliente=$idUsuarioCliente
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

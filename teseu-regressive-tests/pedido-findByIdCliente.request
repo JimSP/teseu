@@ -1,6 +1,0 @@
-GET /pedido/findByIdCliente?id=$id&tokenPaginacao=$tokenPaginacao&comMatch=$comMatch=$id=$id&tokenPaginacao=$tokenPaginacao&comMatch=$comMatch
-accept:application/json
-Content-Type:application/json
-token=$token
-
-

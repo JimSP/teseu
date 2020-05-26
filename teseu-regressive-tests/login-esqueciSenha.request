@@ -1,5 +1,0 @@
-GET /login/esqueciSenha?email=$email=$email=$email
-accept:application/json
-Content-Type:application/json
-
-
