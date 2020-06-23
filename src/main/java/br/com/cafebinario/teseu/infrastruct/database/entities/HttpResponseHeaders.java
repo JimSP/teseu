@@ -19,7 +19,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Data
-@EqualsAndHashCode(callSuper = false, of = { "id" })
+@EqualsAndHashCode(callSuper = false, of = { "id", "name" })
 @ToString(callSuper = true)
 public class HttpResponseHeaders extends Audit {
 

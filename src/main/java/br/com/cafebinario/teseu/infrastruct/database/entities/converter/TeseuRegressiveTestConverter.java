@@ -34,7 +34,7 @@ public class TeseuRegressiveTestConverter {
 			return executionOrders
 					.stream()
 					.map(execOrder -> {						
-						HttpRequest httpRequest = httpRequestRepository.findById(execOrder.getIdRequestApi()).get();
+						HttpRequest httpRequest = httpRequestRepository.findById(execOrder.getRequestApi().getId()).get();
 						return new TeseuExecutionOrder(execOrder.getExecutionOrder(), httpRequest);
 					})
 					.collect(Collectors.toList());			

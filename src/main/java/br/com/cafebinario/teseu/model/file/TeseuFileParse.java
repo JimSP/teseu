@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 import br.com.cafebinario.logger.Log;
 import br.com.cafebinario.logger.LogLevel;
 import br.com.cafebinario.logger.VerboseMode;
+import br.com.cafebinario.teseu.api.ExecutionStatus;
 import br.com.cafebinario.teseu.api.TeseuParse;
 import br.com.cafebinario.teseu.model.TeseuBinder;
 import br.com.cafebinario.teseu.model.TeseuConstants;
@@ -94,7 +95,7 @@ class TeseuFileParse implements TeseuParse<Path>{
 	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	@SneakyThrows
 	@Override
-	public void write(final Path dirName, final Map<String, String> tesseuResponseContext) {
+	public void write(final Long testId, final Path dirName, final Path request, final Map<String, String> tesseuResponseContext, final ExecutionStatus executionStatus) {
 		
 		final String httpStatus = tesseuResponseContext.get(tesseuResponseContext.get(FILENAME_KEY) + "." + TeseuConstants.HTTP_STATUS);
 		final String responseHeaders = tesseuResponseContext.get(tesseuResponseContext.get(FILENAME_KEY) + "." + TeseuConstants.RESPONSE_HEADERS);
@@ -119,7 +120,7 @@ class TeseuFileParse implements TeseuParse<Path>{
 	@Log(logLevel = LogLevel.INFO, verboseMode = VerboseMode.ON)
 	@SneakyThrows
 	@Override
-	public List<Path> list(final Path dirName, final Path inputSource) {
+	public List<Path> list(final Long id, final Path dirName, final Path inputSource) {
 
 		return Files
 				.readAllLines(dirName.resolve(inputSource))
@@ -167,4 +168,5 @@ class TeseuFileParse implements TeseuParse<Path>{
 					return Pair.of(variable[0], variable[1]);
 				}).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
 	}
+ 
 }

@@ -10,5 +10,5 @@ import io.swagger.annotations.Api;
 @RepositoryRestResource(path = "responses")
 @Api("HTTP-RESPONSES")
 public interface HttpResponseRespository extends PagingAndSortingRepository<HttpResponse, Long>, QueryByExampleExecutor<HttpResponse> {
-
+ 
 }

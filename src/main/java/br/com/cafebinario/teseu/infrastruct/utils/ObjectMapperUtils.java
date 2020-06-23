@@ -2,9 +2,11 @@ package br.com.cafebinario.teseu.infrastruct.utils;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
 
 public class ObjectMapperUtils {
@@ -56,7 +58,11 @@ public class ObjectMapperUtils {
 	public static <D, T> List<D> mapAll(final Collection<T> entityList, Class<D> outCLass) {
 		return entityList.stream().map(entity -> map(entity, outCLass)).collect(Collectors.toList());
 	}
-
+ 
+	public static <D, T> Set<D> mapAll(final Set<T> entityList, Class<D> outCLass) {
+		return entityList.stream().map(entity -> map(entity, outCLass)).collect(Collectors.toSet());
+	}
+ 	
 	/**
 	 * Maps {@code source} to {@code destination}.
 	 *

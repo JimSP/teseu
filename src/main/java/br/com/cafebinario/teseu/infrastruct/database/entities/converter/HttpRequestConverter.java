@@ -1,14 +1,16 @@
 package br.com.cafebinario.teseu.infrastruct.database.entities.converter;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
+import br.com.cafebinario.teseu.infrastruct.database.entities.ExpectedValues;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpHeaders;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpMethod;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpParams;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpRequest;
+import br.com.cafebinario.teseu.infrastruct.rest.dto.ExpectedValueApi;
 import br.com.cafebinario.teseu.infrastruct.rest.dto.HeaderApi;
 import br.com.cafebinario.teseu.infrastruct.rest.dto.ParamApi;
 import br.com.cafebinario.teseu.infrastruct.rest.dto.RequestApi;
@@ -28,23 +30,31 @@ public class HttpRequestConverter {
 				.body(requestApi.getBody())
 				.params(convertParams(requestApi.getParamsApi()))
 				.headers(convertHeaders(requestApi.getHeadersApi()))
+				.expectedValues(convertExpectedValues(requestApi.getExpectedValuesApi()))
 				.build();
 	}
 
-	private List<HttpHeaders> convertHeaders(final List<HeaderApi> headersApi) {
-		if (headersApi != null) {
+	private Set<HttpHeaders> convertHeaders(final Set<HeaderApi> headersApi) {
+		if (headersApi != null) { 
 			return ObjectMapperUtils.mapAll(headersApi, HttpHeaders.class);
 		}
-		return Collections.emptyList();
+		return Collections.emptySet();
 	}
 
-	private List<HttpParams> convertParams(final List<ParamApi> paramsApi) {
-		if (paramsApi != null) {
+	private Set<HttpParams> convertParams(final Set<ParamApi> paramsApi) {
+		if (paramsApi != null) {			 
 			return ObjectMapperUtils.mapAll(paramsApi, HttpParams.class);			 
 		}
-		return Collections.emptyList();
+		return Collections.emptySet();
 	}
 
+	private Set<ExpectedValues> convertExpectedValues(final Set<ExpectedValueApi> expectedValuesApi) {
+		if (expectedValuesApi != null) {
+			return ObjectMapperUtils.mapAll(expectedValuesApi, ExpectedValues.class);			 
+		}
+		return Collections.emptySet();
+	}
+	
 	private HttpMethod resolvHttpMethod(final String httpMethod) {
 		return Enum.valueOf(HttpMethod.class, httpMethod);
 	}

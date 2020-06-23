@@ -16,6 +16,6 @@ import lombok.experimental.SuperBuilder;
 public class HeaderApi {
 
 	private Long id;
-	private String key;
+	private String name;
 	private String value;
 }

@@ -1,7 +1,8 @@
 package br.com.cafebinario.teseu.infrastruct.database.entities;
 
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,7 +40,14 @@ public class HttpResponse extends Audit{
 	
 	@Column
 	private String body;
+	 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="httpResponse", orphanRemoval = true)
+	private Set<HttpResponseHeaders> httpResponseHeaders;
+
+	private Integer executionStatus;
 	
-	@OneToMany
-	private List<HttpResponseHeaders> httpResponseHeaders;
+//	public ExecutionStatus getExecutionStatus() {
+ ///       return ExecutionStatus.getType(this.executionStatus);
+  //  }
+	
 }

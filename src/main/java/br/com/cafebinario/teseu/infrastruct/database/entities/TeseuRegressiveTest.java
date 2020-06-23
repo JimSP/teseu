@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +19,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+
+@NamedEntityGraph(name = "graph.teseuRegressiveTest.executionsOrders", 
+attributeNodes = {
+    @NamedAttributeNode(value = "teseuExecutionOrders") 
+})
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor

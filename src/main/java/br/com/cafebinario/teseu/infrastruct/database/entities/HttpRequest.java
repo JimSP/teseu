@@ -1,6 +1,6 @@
 package br.com.cafebinario.teseu.infrastruct.database.entities;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +22,13 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
+
+@NamedEntityGraph(name = "graph.httpRequest.headersAndParamsAndExpectedValues", 
+attributeNodes = {
+    @NamedAttributeNode(value = "headers"),
+    @NamedAttributeNode(value = "params"),
+    @NamedAttributeNode(value = "expectedValues")
+})
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -52,11 +61,14 @@ public class HttpRequest extends Audit {
 	private String body;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="request", orphanRemoval = true)
-	private List<HttpHeaders> headers;
+	private Set<HttpHeaders> headers;
    
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="request", orphanRemoval = true)
-	private List<HttpParams> params;
- 
+	private Set<HttpParams> params;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="request", orphanRemoval = true)
+	private Set<ExpectedValues> expectedValues;
+
 	@ManyToOne
 	private TeseuContext teseuContext;
 

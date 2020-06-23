@@ -41,6 +41,9 @@ public class TeseuExecutionOrder extends Audit {
 	private HttpRequest httpRequest;
 	
 	@ManyToOne
+	private HttpResponse httpResponse;
+	
+	@ManyToOne
 	private TeseuRegressiveTest regressiveTest;
 	
 	public TeseuExecutionOrder(Integer executionOrder, HttpRequest httpRequest) {

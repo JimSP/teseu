@@ -6,16 +6,21 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.cafebinario.teseu.exception.TeseuTestManagerApiNotFoundException;
 import br.com.cafebinario.teseu.infrastruct.adapter.TeseuTestManagerApiAdapterInterface;
 import br.com.cafebinario.teseu.infrastruct.database.entities.TeseuRegressiveTest;
 import br.com.cafebinario.teseu.infrastruct.database.repositories.TeseuRegressiveTestRepository;
+import br.com.cafebinario.teseu.infrastruct.database.repositories.TeseuRegressiveTestRepositoryCustom;
+import lombok.SneakyThrows;
   
 @Service
 public class TeseuTestManagerApiAdapterImpl implements TeseuTestManagerApiAdapterInterface {
  
 	@Autowired
 	private TeseuRegressiveTestRepository teseuRegressiveTestRepository;
+	
+	@Autowired
+	private TeseuRegressiveTestRepositoryCustom teseuRegressiveTestRepositoryCustom;
+	
 	
 	@Override
 	@Transactional
@@ -32,9 +37,13 @@ public class TeseuTestManagerApiAdapterImpl implements TeseuTestManagerApiAdapte
 	}
 
 	@Override
+	@SneakyThrows
 	public TeseuRegressiveTest getById(Long id) {
-		return teseuRegressiveTestRepository.findById(id)
-					.orElseThrow(()->new TeseuTestManagerApiNotFoundException(id));
+		
+		return teseuRegressiveTestRepositoryCustom.findOneWithLazyDependencies(id);
+		
+	//	return teseuRegressiveTestRepository.findById(id)
+		//			.orElseThrow(()->new TeseuTestManagerApiNotFoundException(id));
 	}
 	
 	@Override

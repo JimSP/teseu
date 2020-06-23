@@ -6,11 +6,14 @@ import static br.com.cafebinario.teseu.model.TeseuConstants.HOST;
 import static br.com.cafebinario.teseu.model.TeseuConstants.METHOD;
 import static br.com.cafebinario.teseu.model.TeseuConstants.URI;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -19,16 +22,18 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import br.com.cafebinario.teseu.api.ExecutionStatus;
 import br.com.cafebinario.teseu.api.TeseuParse;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpHeaders;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpRequest;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpResponse;
 import br.com.cafebinario.teseu.infrastruct.database.entities.HttpResponseHeaders;
 import br.com.cafebinario.teseu.infrastruct.database.entities.TeseuExecutionOrder;
+import br.com.cafebinario.teseu.infrastruct.database.entities.TeseuRegressiveTest;
 import br.com.cafebinario.teseu.infrastruct.database.repositories.HttpRequestRepository;
+import br.com.cafebinario.teseu.infrastruct.database.repositories.HttpRequestRepositoryCustom;
 import br.com.cafebinario.teseu.infrastruct.database.repositories.HttpResponseRespository;
 import br.com.cafebinario.teseu.infrastruct.database.repositories.TeseuExecutionOrderRepository;
-import br.com.cafebinario.teseu.model.Minotaur;
 import br.com.cafebinario.teseu.model.TeseuBinder;
 import br.com.cafebinario.teseu.model.TeseuConstants;
 import lombok.SneakyThrows;
@@ -38,6 +43,9 @@ public class TeseuDBparse implements TeseuParse<String> {
 	
 	@Autowired
 	private HttpRequestRepository httpRequestRepository;
+	
+	@Autowired
+	private HttpRequestRepositoryCustom httpRequestRepositoryCustom;
 	
 	@Autowired
 	private HttpResponseRespository httpResponseRespository;
@@ -51,13 +59,9 @@ public class TeseuDBparse implements TeseuParse<String> {
 	@Override
 	@SneakyThrows
 	public Map<String, String> read(final String name, final String requestName, final Map<String, String> teseuRequestContext) {
-		
-		final HttpRequest httpRequest = httpRequestRepository
-											.findOne(Example.of(HttpRequest.builder().name(requestName).build()))
-											.orElseThrow(()-> Minotaur.of("httpRequest of " + requestName + " not found"));
-
-		teseuRequestContext.put("inputSource", httpRequest.getTeseuContext().getName());
-		
+ 
+		final HttpRequest httpRequest = httpRequestRepositoryCustom.findOneWithLazyDependencies(Long.valueOf(requestName));
+				
 		toMap(httpRequest, teseuRequestContext);
 		
 		teseuBinder.validation(teseuRequestContext);
@@ -67,37 +71,46 @@ public class TeseuDBparse implements TeseuParse<String> {
 
 	@Override
 	@SneakyThrows
-	public List<String> list(final String name, final String inputSource) {
+	public List<String> list(final Long id, final String name, final String inputSource) {
 
-		return StreamSupport.stream(teseuExecutionOrderRepository
+		return 
+				StreamSupport.stream(teseuExecutionOrderRepository
 				.findAll(Example.of(
 						TeseuExecutionOrder
 							.builder() 
+							.regressiveTest(TeseuRegressiveTest.builder().id(id).build())
 							.build()), Sort.by(TeseuExecutionOrder.orderBy())).spliterator(), false)
 				.map(TeseuExecutionOrder::getHttpRequest)
-				.map(HttpRequest::getName)
+				.map(HttpRequest::getId)
+				.map(idLong -> idLong.toString())
 				.collect(Collectors.toList());
 	}
 
 	@Override
-	public void write(final String name, final Map<String, String> teseuResponseContext) {
+	public void write(final Long testId, final String name, final String requestName, final Map<String, String> teseuResponseContext, final ExecutionStatus executionStatus) {
 		
-		final String inputSource = teseuResponseContext.get("inputSource");
-		final String responseBody = teseuResponseContext.get(TeseuConstants.RESPONSE_BODY);
-		final String responseHeaders = teseuResponseContext.get(TeseuConstants.RESPONSE_HEADERS);
-		final String httpStatus = teseuResponseContext.get(TeseuConstants.HTTP_STATUS);
+		final String httpStatus = teseuResponseContext.get(teseuResponseContext.get(FILENAME_KEY) + "." + TeseuConstants.HTTP_STATUS);
+		final String responseHeaders = teseuResponseContext.get(teseuResponseContext.get(FILENAME_KEY) + "." + TeseuConstants.RESPONSE_HEADERS);
+		final String responseBody = teseuResponseContext.get(teseuResponseContext.get(FILENAME_KEY) + "." + TeseuConstants.RESPONSE_BODY);
+		final HttpRequest httpRequest = httpRequestRepository.findById(Long.valueOf(requestName)).get();
+		
+		excluiResultadoAnterior(testId, httpRequest);
 		
 		final HttpResponse httpResponse = HttpResponse
 												.builder()
-												.inputSource(inputSource)
+												.inputSource("jane") 
 												.body(responseBody)
 												.statusCode(Integer.valueOf(httpStatus))
+												.executionStatus(executionStatus.getId())
 												.build();
 		
-		final List<HttpResponseHeaders> httpResponseHeaders = toList(responseHeaders, httpResponse);
+		final Set<HttpResponseHeaders> httpResponseHeaders = toSet(responseHeaders, httpResponse);
 		httpResponse.setHttpResponseHeaders(httpResponseHeaders);
 		
 		httpResponseRespository.save(httpResponse);
+		
+		atualizarTeste(testId, httpRequest, httpResponse);
+		
 	}
 
 	@Override
@@ -130,10 +143,15 @@ public class TeseuDBparse implements TeseuParse<String> {
 		return tesseuRequestContext;
 	}
 	
-	private List<HttpResponseHeaders> toList(final String responseHeaders, final HttpResponse httpResponse) {
-		
-		return Arrays
-				.asList(responseHeaders.split("[,]"))
+	private Set<HttpResponseHeaders> toSet(final String responseHeaders, final HttpResponse httpResponse) {
+ 
+		List<String> allMatches = new ArrayList<String>();
+		Matcher m = Pattern.compile("[\\w-]*\\=\\[(.*?)\\]").matcher(responseHeaders);
+		while (m.find()) {
+			allMatches.add(m.group());
+		}
+	 
+		return allMatches
 				.stream()
 				.map(mapper->HttpResponseHeaders
 								.builder()
@@ -141,6 +159,29 @@ public class TeseuDBparse implements TeseuParse<String> {
 								.name(mapper.substring(0, mapper.indexOf("=")))
 								.value(mapper.substring(mapper.indexOf("=") + 1, mapper.length()))
 								.build())
-				.collect(Collectors.toList());
+				.collect(Collectors.toSet());
 	}
+	
+	private void atualizarTeste(Long testId, HttpRequest httpRequest, HttpResponse httpResponse) {
+ 
+		final TeseuExecutionOrder executionOrder = teseuExecutionOrderRepository.findByTestIdAndRequestId(testId, httpRequest.getId());
+		
+		executionOrder.setHttpResponse(httpResponse);
+		
+		teseuExecutionOrderRepository.save(executionOrder);
+		
+	}
+
+	private void excluiResultadoAnterior(Long testId, HttpRequest httpRequest) {
+	 
+		TeseuExecutionOrder executionOrder = teseuExecutionOrderRepository.findByTestIdAndRequestId(testId, httpRequest.getId());
+		
+		if (executionOrder != null && executionOrder.getHttpResponse() != null) {
+			Long responseAnteriorId = executionOrder.getHttpResponse().getId();
+			executionOrder.setHttpResponse(null);
+			teseuExecutionOrderRepository.save(executionOrder);
+			httpResponseRespository.deleteById(responseAnteriorId);
+		}
+	}
+ 
 }

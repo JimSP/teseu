@@ -23,14 +23,9 @@ public class ExecutionOrder {
 	private Integer executionOrder;
 	
 	@NotNull
-	private Long idRequestApi;
+	private RequestApi requestApi;
 	
-	private String name;
-	 
-	private String httpMethod;
-	
- 	private String host;
- 
- 	private String path;
+	@NotNull
+	private ResponseApi responseApi;
 	
 }

@@ -24,6 +24,8 @@ public class TeseuManagerApiAdapterImpl implements TeseuManagerApiAdapterInterfa
 		httpRequest.getParams().forEach(param -> param.setRequest(httpRequest));
 		
 		httpRequest.getHeaders().forEach(header -> header.setRequest(httpRequest));
+		
+		httpRequest.getExpectedValues().forEach(expValue -> expValue.setRequest(httpRequest));
 		 
 		return httpRequestRepository.save(httpRequest);
 	}

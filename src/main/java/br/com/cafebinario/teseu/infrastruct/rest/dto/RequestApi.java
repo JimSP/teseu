@@ -1,6 +1,6 @@
 package br.com.cafebinario.teseu.infrastruct.rest.dto;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
 
@@ -33,10 +33,12 @@ public class RequestApi {
 	@NotBlank
 	private String path;
 	
-	private List<ParamApi> paramsApi;
+	private Set<ParamApi> paramsApi;
 	
-	private List<HeaderApi> headersApi;
+	private Set<HeaderApi> headersApi;
 	
+	private Set<ExpectedValueApi> expectedValuesApi;
+
 	private String body;
 	
 }
