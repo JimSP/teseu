@@ -2,4 +2,4 @@ POST /login/authenticate
 accept:application/json
 Content-Type:application/json
 
-$raquelloginPayload
+$'raquelloginPayload'.toUpperCase()
